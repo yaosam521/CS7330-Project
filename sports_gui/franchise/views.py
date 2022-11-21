@@ -3,8 +3,9 @@ from django.template import loader
 
 
 def index(request):
-    template = loader.get_template('league/index.html')
+    template = loader.get_template('home/index.html')
     return HttpResponse(template.render())
 
 def league(request):
-    return HttpResponse("Welcome to the league page.")
+    template = loader.get_template('league/league.html')
+    return HttpResponse(template.render())

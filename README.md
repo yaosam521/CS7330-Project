@@ -3,7 +3,7 @@
 ## Getting Started:
 ### Running the Virtual Environment
 1. Navigate to the main project folder (should be CS7330-Project)
-2. Type the command 'source proj_env/bin/activate'
+2. Type the command 'source proj_venv/bin/activate'
 3. There should be a (proj_env) that pops up next to the command line
 4. To deactivate the virtual environment, simply type 'deactivate'
 
