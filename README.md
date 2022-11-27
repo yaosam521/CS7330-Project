@@ -2,10 +2,11 @@
 
 ## Getting Started:
 ### Running the Virtual Environment
-1. Navigate to the main project folder (should be CS7330-Project)
-2. Type the command 'source proj_venv/bin/activate'
-3. There should be a (proj_env) that pops up next to the command line
-4. To deactivate the virtual environment, simply type 'deactivate'
+1. Type 'pip install virtualenv' to install virtualenvironment
+2. Navigate to the directory in which you want to place your environment
+3. DO NOT PUSH the venv into the github. Put it in a .gitignore.
+4. To create a venv, type 'python -m venv name_of_venv'
+5. to activate the venv, type 'name_of_venv\Scripts\activate.bat' for windows, and 'source name_of_venv/bin/activate' for MacOS
 
 ### Running the Web App
 1. Make sure the virtual environment is running
