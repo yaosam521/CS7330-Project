@@ -31,6 +31,14 @@ def game_query(request):
     template = loader.get_template('queries/game_query.html')
     return HttpResponse(template.render())
 
+def ratings_query(request):
+    template = loader.get_template('queries/ratings_query.html')
+    return HttpResponse(template.render())
+
+def season_query(request):
+    template = loader.get_template('queries/season_query.html')
+    return HttpResponse(template.render())
+
 def results(request):
     template = loader.get_template('results.html')
     return HttpResponse(template.render())
