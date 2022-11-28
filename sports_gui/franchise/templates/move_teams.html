@@ -9,7 +9,27 @@
   </head>
   <body>
     {% include './common/navbar.html' %}
-    <!-- Everything you need to write goes here! -->
+    <div class="container">
+      <h1>Change Leagues</h1>
+      <p>Does your team dislike the League owner's bureaucratic policies?</p>
+      <p>Do you hear the calling of the Football Pitch despite being an F1 Driver?</p>
+      <p>Have No Fear, League Changer is Here!</p>
+      <form>
+        <label for="team">Select Team</label>
+        <input type="text" name="team" id="team">
+        <br>
+        <label for="currentLeague">Current League</label>
+        <input type="text" name="currentLeague" id="currentLeague">
+        <br>
+        <label for="newLeague">New Home League</label>
+        <input type="text" name="newLeague" id="newLeague">
+        <br>
+        <label for="date">Date</label>
+        <input type="date" name="date" id="date"> <!--Use min="" to set a minimum date-->
+        <br>
+        <button type="submit" class="btn btn-primary">Change League</button>
+      </form>
+    </div>
     {% include './common/bootstrap_js.html' %}
   </body>
 </html>
