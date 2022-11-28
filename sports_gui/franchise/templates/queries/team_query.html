@@ -9,14 +9,16 @@
   </head>
   <body>
     {% include '../common/navbar.html' %}
-    <h1>Team Query</h1>
-    <form>
-        <label for="teamQuery">Enter the Team Name</label>
-        <input type="text" id="teamQuery" name="teamQuery">
-        <button type="submit">Find</button>
-    </form>
-    <br>
-    <h1>Query Results</h1>
+    <div class="container">
+      <h1>Team Query</h1>
+      <form>
+          <label for="teamQuery">Enter the Team Name</label>
+          <input type="text" id="teamQuery" name="teamQuery">
+          <button type="submit" class="btn btn-primary">Find</button>
+      </form>
+      <br>
+      <h1>Query Results</h1>
+    </div>
     {% include '../common/bootstrap_js.html' %}
   </body>
 </html>
