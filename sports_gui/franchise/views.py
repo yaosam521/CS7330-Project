@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
+from django.shortcuts import render
 
 
 def index(request):
@@ -12,4 +13,8 @@ def league(request):
 
 def date(request):
     template = loader.get_template('date/date.html')
+    return HttpResponse(template.render())
+
+def season(request):
+    template = loader.get_template('season/season.html')
     return HttpResponse(template.render())
