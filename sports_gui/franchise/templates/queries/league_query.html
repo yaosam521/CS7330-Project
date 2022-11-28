@@ -10,13 +10,14 @@
   <body>
     {% include '../common/navbar.html' %}
     <div class="container">
-        <h1>Current Date</h1>
-        <p>{# getDate #}</p><!-- In here goes the Current Date, pulled from the db -->
-        <h1>Change the Date:</h1>
+        <h1>League Query</h1>
         <form>
-          <label for="dateChange">Change Current Date</label>
-          <input type="date" id="dateChange" name="">
+            <label for="leagueQuery">Enter the League Name</label>
+            <input type="text" id="leagueQuery" name="leagueQuery">
+            <button type="submit">Find</button>
         </form>
+        <br>
+        <h1>Query Results</h1>
     </div>
     {% include '../common/bootstrap_js.html' %}
   </body>

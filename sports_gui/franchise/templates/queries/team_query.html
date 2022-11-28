@@ -9,15 +9,14 @@
   </head>
   <body>
     {% include '../common/navbar.html' %}
-    <div class="container">
-        <h1>Current Date</h1>
-        <p>{# getDate #}</p><!-- In here goes the Current Date, pulled from the db -->
-        <h1>Change the Date:</h1>
-        <form>
-          <label for="dateChange">Change Current Date</label>
-          <input type="date" id="dateChange" name="">
-        </form>
-    </div>
+    <h1>Team Query</h1>
+    <form>
+        <label for="teamQuery">Enter the Team Name</label>
+        <input type="text" id="teamQuery" name="teamQuery">
+        <button type="submit">Find</button>
+    </form>
+    <br>
+    <h1>Query Results</h1>
     {% include '../common/bootstrap_js.html' %}
   </body>
 </html>
