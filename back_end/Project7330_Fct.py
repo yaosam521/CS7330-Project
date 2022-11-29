@@ -21,7 +21,7 @@ Games=mydb["Games"]																			# create a collection named Games
 Dates=mydb["Dates"]	
 
 graph=defaultdict(list)
-# what i need
+
 def insert_league(inLeagues, checkForTeams=False):# Done
 	# Start working on Leagues collection---------------------------------------------------------------------------------------------------
 	if checkForTeams:
