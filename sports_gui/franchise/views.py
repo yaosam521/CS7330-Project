@@ -83,3 +83,11 @@ def manual_insert_teams(request):
 def insert_games(request):
     template = loader.get_template('insert_games.html')
     return HttpResponse(template.render())
+
+def move_teams_2(request):
+    team = request.GET.get('team')
+    cL = request.GET.get('currentLeague')
+    nL = request.GET.get('newLeague')
+    date = request.GET.get('date')
+    params = {'result': move_team(team,cL,nL,date)}
+    return render(request, 'move_teams_2.html', params)
