@@ -113,7 +113,7 @@ def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, ma
 		if inGames == {}:
 			print("insert_game: user can't go to further then this date: %s without games insertion ;p" %(Season_dict["sDate"]))
 			if inSeasonCall== True:
-			return True
+				return True
 		else:
 			___res="user can't go to further then this date:"+Season_dict["sDate"]+"without games insertion ;p"
 			return ___res
