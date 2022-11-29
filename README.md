@@ -6,8 +6,12 @@
 2. Navigate to the directory in which you want to place your environment
 3. DO NOT PUSH the venv into the github. Put it in a .gitignore.
 4. To create a venv, type 'python -m venv name_of_venv'
+<<<<<<< HEAD
 5. To activate the venv, type 'name_of_venv\Scripts\activate.bat' for windows, and 'source name_of_venv/bin/activate' for MacOS
 6. While the venv is running, type 'pip install -r requirements.txt'
+=======
+5. to activate the venv, type 'name_of_venv\Scripts\activate.bat' for windows, and 'source name_of_venv/bin/activate' for MacOS
+>>>>>>> 80f21b0 (Updated instructions for creating the virtual environment and getting your venv up to speed)
 
 ### Running the Web App
 1. Make sure the virtual environment is running
