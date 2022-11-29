@@ -18,83 +18,114 @@ mydb.Seasons.create_index([('lName', pymongo.ASCENDING)], unique=False)						# c
 
 Games=mydb["Games"]																			# create a collection named Games
 
-graph=defaultdict(list)
+Dates=mydb["Dates"]	
 
-def insert_league(inLeagues, checkForTeams=False):
+graph=defaultdict(list)
+# what i have to do
+# function to return pairs for sam manual games, fix insert games to work alone, merge the two insert season and league together
+def insert_league(inLeagues, checkForTeams=False):# Done
 	# Start working on Leagues collection---------------------------------------------------------------------------------------------------
 	if checkForTeams:
 		for team in inLeagues["Teams"]:											
 			if Teams.find_one({"tName":team}) == None:										# if one of the teams doesn't exist then abort
 				print("insert_league: no such team called: ",team)
-				return False
+				___res="no such team called: "+team
+				return ___res
+				#return False
 
 		if not Leagues.find_one({"Teams":{ "$in":inLeagues["Teams"]}}) == None:				# if one of the teams is already assigned then abort
 			print("insert_league: already assigned team in collection")
-			return False																	# HINT: this check can be added to the previous loop to know which team is assigned
+			___res="already assigned team in collection"
+			return ___res
+			#return False																	# HINT: this check can be added to the previous loop to know which team is assigned
 
 	try:
 		Leagues.insert_one(inLeagues)	
 		print("insert_league: League succ insertion")
-		return True
+		___res= "League succ insertion"
+		#return True
 	except pymongo.errors.DuplicateKeyError:												# hundling the DuplicateKeyError exception
 		print("insert_league: DuplicateKeyError handled Succecefully")
-		return False
+		___res="Duplicate League Name detected"
+		return ___res
+		#return False
 
-def insert_team(inTeams):
+def insert_team(inTeams):# Done
 	# Start working on Teams collection-----------------------------------------------------------------------------------------------------
 
 	try:
 		Teams.insert_one(inTeams)	
 		print("insert_team: Team succ insertion")
-		return True
+		___res="Team succ insertion"
+		return  ___res
+		#return True
 	except pymongo.errors.DuplicateKeyError:												# hundling the DuplicateKeyError exception
 		print("insert_team: DuplicateKeyError handled Succecefully")
-		return False
+		___res= "Duplicate Team Name detected"
+		return ___res
+		#return False
 
-def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100):
+def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100):# until insert games is done
 	# Start working on Seasons collection---------------------------------------------------------------------------------------------------
 	leagueInfo=Leagues.find_one({"lName":inSeasons["lName"]})
 
 	if leagueInfo == None:																	# check that lName is correct
 		print("insert_season: no such league")
-		return False
+		___res="no such league"
+		return ___res
+		#return False
 
 	c1, c2, c3=[{"$gte": inSeasons["sDate"]},{"$gte": inSeasons["eDate"]},{"$lt": inSeasons["sDate"]}] # Check for conflicts
 	conflict= Seasons.find_one({"lName": inSeasons["lName"], "$nor": [{"$or": [{"$and":[{"sDate":c1},{"sDate":c2}]},{"$and":[{"sDate":c3},{"eDate":c3}]}]}]})
  	
 	if conflict==None:																		# if no conflict then
-		try:
-			standingInitiator={}
-			for team in leagueInfo["Teams"]:												# create the standing key/value
-				standingInitiator.update({team: 0})	
-			inSeasons.update({"Standing":standingInitiator})								# add it to our inSeason dict
-			SeasonId=Seasons.insert_one(inSeasons)											# insert season and retreive the id to rollback if prob in games										
-			if insert_games(Seasons.find_one({"_id":SeasonId.inserted_id}), autoInsertion, inGames, leagueInfo["Teams"], maxPerDay) == True:
-				print("insert_season: Season succ insertion")
-				return True
-			else: 																			# if games prob then remove the inserted season.
-				Seasons.delete_one({"SeasonId":Season_dict["_id"]})
-				return False
-		except pymongo.errors.DuplicateKeyError:												# hundling the DuplicateKeyError exception
-			print("insert_season: DuplicateKeyError handled Succecefully")
-			return False
+		standingInitiator={}
+		for team in leagueInfo["Teams"]:												# create the standing key/value
+			standingInitiator.update({team: 0})	
+		inSeasons.update({"Standing":standingInitiator})								# add it to our inSeason dict
+		if autoInsertion==True or inGames != {}:
+			inSeasons.update({"gInserted": True})
+		else:
+			inSeasons.update({"gInserted": False})
+		SeasonId=Seasons.insert_one(inSeasons)											# insert season and retreive the id to rollback if prob in games										
+		if insert_games(Seasons.find_one({"_id":SeasonId.inserted_id}), autoInsertion, inGames, leagueInfo["Teams"], maxPerDay, inSeasonCall=True) == True:
+			print("insert_season: Season succ insertion")
+			___res= "Season succ insertion"
+			return ___res
+			#return True
+		else: 																			# if games prob then remove the inserted season.
+			Seasons.delete_one({"SeasonId":Season_dict["_id"]})
+			___res="games problem"
+			return ___res
+			#return False
+	
 	else:
 		print("insert_season: Seasons Conflict Detected", end= ' ')
 		print("already inserted Season between : %s -- %s " %(conflict["sDate"], conflict["eDate"]))
-		return False
+		___res="insert_season: Seasons Conflict Detected "+"already inserted Season between : "+conflict["sDate"]+" -- "+conflict["eDate"]
+		return ___res
+		#return False
 
-def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, maxPerDay=100): 	# try to rearange your parameters/ remove the default for some
+def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, maxPerDay=100, inSeasonCall=False): 	# try to rearange your parameters/ remove the default for some
 	# Start working on Games collection-----------------------------------------------------------------------------------------------------
 
 	if autoInsertion == False :																	# requested Manual insertion.
 		if inGames == {}:
 			print("insert_game: user can't go to further then this date: %s without games insertion ;p" %(Season_dict["sDate"]))
+			if inSeasonCall== True:
 			return True
+		else:
+			___res="user can't go to further then this date:"+Season_dict["sDate"]+"without games insertion ;p"
+			return ___res
 		for game in inGames:
 			game.update({"SeasonId":Season_dict["_id"]})
 		Games.insert_many(inGames)																# GUI responsibility to maintain the consistency
 		print("insert_game: games succ insertion")
-		return True
+		if inSeasonCall== True:
+			return True
+		else:
+			___res="games succ insertion"
+			return ___res
 	else:
 		schedule={"1":[]}
 		reqDays=1
@@ -130,23 +161,35 @@ def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, ma
 			
 			Games.insert_many(AutoinGames)														# then inserte it 
 			print("insert_game: games succ insertion")
-			return True
+			if inSeasonCall== True:
+				return True
+			else:
+				___res="games succ insertion"
+				return ___res
 		else:																					# else if we don't have much days
 			print("insert_game: No Solution -- add more days or increase the maxPerDay req")
-			return False
+			if inSeasonCall== True:
+				return False
+			else:
+				___res="No Solution -- add more days or increase the maxPerDay req"
+				return ___res
 
 def insert_game_res(team1, score1, team2, score2, date, replace=False, t1Rating=None, t2Rating=None): # team info should be str and score/rating should be int "GUI" dateFormat= "%Y-%m-%d"
 	game= Games.find_one({"Record."+team1: { "$exists": True }, "Record."+team2: { "$exists": True }, "Date":date})
 	if game==None:
 		print("insert_game_res: no such game")
-		return False
+		___res="no such game"
+		return ___res
+		#return False
 	else:
 		season= Seasons.find_one({'_id':game["SeasonId"]})										# to update the standing
 		rollbackT1Stand, rollbackT2Stand= (0, 0)
 		if game["Record"][team1]!= None:																	# if game already updated
 			if replace == False:																# no replace cmd
 				print("insert_game_res: game res already updated")
-				return False
+				___res="game res already updated"
+				return ___res
+				#return False
 			else:																				# with replace cmd
 				if game["Record"][team1] > game["Record"][team2]:													# prepare to rollback the previous standing
 					rollbackT1Stand, rollbackT2Stand= (season["sRules"]["win"], season["sRules"]["lose"])
@@ -171,46 +214,80 @@ def insert_game_res(team1, score1, team2, score2, date, replace=False, t1Rating=
 		newValue={ "$set": {"Standing": standing} }
 		Seasons.update_one(flt, newValue)														# write updates to the disk
 		print("insert_game_res: game result inserted and standing updated")
+		___res="game result inserted and standing updated "
 
 		if t1Rating != None:																	# update T1 rating if desired 
 			temp= Teams.find_one({"tName": team1})
 			flt={"_id": temp["_id"]}
 			Teams.update_one(flt, { "$set": {"Rating": t1Rating} })
 			print("insert_game_res: team1 rating updated succ")
+			___res+="team1 rating updated succ"
 
 		if t2Rating != None:																	# update T2 rating if desired 
 			temp= Teams.find_one({"tName": team2})
 			flt={"_id": temp["_id"]}
 			Teams.update_one(flt, { "$set": {"Rating": t2Rating} })
 			print("insert_game_res: team2 rating updated succ")
+			___res+="team2 rating updated succ"
 
-		return True																				# Fct ended succ
+		return ___res
+		#return True																				# Fct ended succ
 
-def move_team(team, fromLeague, toLeague, CurrentDate):											# parameters should be str dayFormat= "%Y-%m-%d"
+def move_team(team, fromLeague, toLeague, CurrentDate):	#Done										# parameters should be str dayFormat= "%Y-%m-%d"
 	if Leagues.find_one({"lName": fromLeague, "Teams":  team}) == None or Leagues.find_one({"lName": toLeague}) == None: # check this record exist
 		print("move_team: Move aborted: Wrong Info")
-		return False
+		___res= "Move aborted: Wrong Info"
+		return ___res
+		#return False
 
 	if not Seasons.find_one({"lName":{"$in":[fromLeague, toLeague]}, "sDate":{"$lte": CurrentDate}, "eDate":{"$gte": CurrentDate}}) == None:
 		print("move_team: Move aborted: in Season Conflict")
-		return False
+		___res= "Move aborted: in Season Conflict"
+		return ___res
+		#return False
 
 	Leagues.update_one({"lName": fromLeague}, {"$pull":{"Teams": team}})
 	Leagues.update_one({"lName": toLeague}, {"$push":{"Teams": team}})
 	print("move_team: team moved Succecefully")
-	return True
+	___res="team moved Succecefully"
+	return ___res
+	#return True
+
+#-----------------------------------------------------Added insertion------------------------------------------------------------------------------
+def init_date():
+	if Dates.find_one()==None:
+		Dates.insert_one({"Current":"2022/01/01"})
+
+def change_date(newDate):
+	dateDict=Dates.find_one()
+	if dateDict["Current"] > newDate :
+		___res="you can't go backwards"
+		print(___res)
+		return ___res
+	for noGSeason in Seasons.find({"gInserted": False}):
+		if noGSeason["sDate"] < newDate:
+			___res="conflict detected please insert games results for League: "+noGSeason["lName"]+" with season in: "+noGSeason["sDate"]+"---"+noGSeason[""]
+			return ___res
+
+	Dates.update_one({"_id":dateDict["_id"]}, {dateDict["Current"]: newDate})
+
+
+#-----------------------------------------------------Added insertion------------------------------------------------------------------------------
 
 #----------------------------------------------------------Querys----------------------------------------------------------------------------------
 
-def season_query(league, sDate, eDate):															# parameters should be str dayFormat= "%Y-%m-%d"
+def season_query(league, sDate, eDate):	#Done													# parameters should be str dayFormat= "%Y-%m-%d"
 	season=Seasons.find_one({"lName":league, "sDate":sDate, "eDate":eDate})
 	if (season == None):
 		print("season_query: No such season")
-		return False
+		___res="No such season"
+		return ___res
+		#return False
 
 	sortedStanding= sorted(season["Standing"].items(), key=lambda x:x[1], reverse=True)			# this is the important var to be displayed into the GUI
 	print("season_query: ", sortedStanding)							
-	return True
+	return sortedStanding	
+	#return True
 
 def game_query(team1, team2):																	# team1/2 should be str
 	gQueryOrgnizer={}
@@ -224,20 +301,26 @@ def game_query(team1, team2):																	# team1/2 should be str
 
 	if gQueryOrgnizer == {}:
 		print("game_query: No Such record")
-		return False
+		___res="No Such record"
+		return ___res
+		#return False
 	else:
 		print("game_query: ", gQueryOrgnizer)
-		return True
+		return gQueryOrgnizer
+		#return True
 			
 def team_info_query(tName):
 	team=Teams.find_one({"tName":tName})
 	if team==None:
 		print("team_info_query: No such record")
-		return False
+		___res="No such record"
+		return ___res
+		#return False
 	else:
 		team.pop("_id")
 		print("team_info_query: ", team)
-		return True
+		return team
+		#return True
 
 def team_records_query(tName):																	# tName should be str
 	tQueryOrgnizer={}
@@ -269,21 +352,27 @@ def team_records_query(tName):																	# tName should be str
 
 	if noRes==1:
 		print("team_records_query: no played Games record")
-		return False
+		___res="no played Games record"
+		return ___res
+		#return False
 	else:
-		return True
+		return group
+		#return True
 
 
 def league_info_query(lName):																	# lName should be str
 	league=Leagues.find_one({"lName":lName})
 	if league==None:
 		print("league_info_query: No such record")
-		return False
+		___res="No such record"
+		return ___res
+		#return False
 	else:
 		league.pop("_id")
 		league["SeasonsCount"]=Seasons.count_documents({"lName":lName})
 		print("league_info_query: ", league)
-		return True
+		return league
+		#return True
 
 def league_champians_query(lName):																# lName should be str
 	seasonsRes=Seasons.find({"lName":lName},{"sDate":1, "eDate":1, "Standing":1})
@@ -299,9 +388,12 @@ def league_champians_query(lName):																# lName should be str
 		print("league_champians_query: ",season)
 	if noRes==1:
 		print("league_champians_query: no such record")
-		return False
+		___res="no such record"
+		return ___res
+		#return False
 	else:
-		return True 
+		return season
+		#return True 
 	
 def RQ_longest_path(start, sequence):
 	localSeq=sequence.copy()
@@ -332,7 +424,9 @@ def rating_query(league, sDate, eDate):
 	season=Seasons.find_one({"lName":league, "sDate":sDate, "eDate":eDate})
 	if season==None:
 		print("rating_query: No Such Season")
-		return False
+		___res="No Such Season"
+		return ___res
+		#return False
 	teamsCurrentRating={}
 	for team in season["Standing"].keys():
 		teamsCurrentRating[team]=Teams.find_one({"tName":team})["Rating"]						# get all teams current ratings
@@ -355,6 +449,7 @@ def rating_query(league, sDate, eDate):
 			finalSequence=sequence
 
 	print("rating_query: ",finalSequence)
-	return True
+	return finalSequence
+	#return True
 
 
