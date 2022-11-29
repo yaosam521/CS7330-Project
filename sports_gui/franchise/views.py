@@ -2,6 +2,10 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render
 
+import sys
+sys.path.append('../')
+from back_end.Project7330_Fct import *
+
 
 def index(request):
     template = loader.get_template('home/index.html')
@@ -46,6 +50,21 @@ def results(request):
 def move_teams(request):
     template = loader.get_template('move_teams.html')
     return HttpResponse(template.render())
+
+def teamEntry(request):
+    tName = request.GET.get('text', 'default')
+    print(tName)
+    params = {'result': team_info_query(tName)}
+    return render(request, 'teamEntry/teamEntry.html', params)
+
+def resultsEntered(request):
+    teamName1 = request.GET.get('team1', 'default')
+    teamScore1 = request.GET.get('team1Score', 'default')
+    teamName2 = request.GET.get('team2', 'default')
+    teamScore2 = request.GET.get('team2Score', 'default')
+    params = {'team1':teamName1, 'team1Score':teamScore1, 'team2':teamName2, 'team2Score':teamScore2}
+    print(teamName1, teamScore1, teamName2, teamScore2)
+    return render(request, 'resultsEntered/resultsEntered.html', params)
 
 def manual_insert_teams(request):
     template = loader.get_template('manual_insert_teams.html')
