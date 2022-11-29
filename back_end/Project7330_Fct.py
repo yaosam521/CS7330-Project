@@ -21,7 +21,8 @@ Games=mydb["Games"]																			# create a collection named Games
 Dates=mydb["Dates"]	
 
 graph=defaultdict(list)
-
+# what i have to do
+# function to return pairs for sam manual games, fix insert games to work alone, merge the two insert season and league together
 def insert_league(inLeagues, checkForTeams=False):# Done
 	# Start working on Leagues collection---------------------------------------------------------------------------------------------------
 	if checkForTeams:
