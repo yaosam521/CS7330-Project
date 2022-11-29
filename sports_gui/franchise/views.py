@@ -15,6 +15,16 @@ def league(request):
     template = loader.get_template('league/league.html')
     return HttpResponse(template.render())
 
+def leagueResult(request):
+    abc = request.GET.get('lName', 'cName', 'SSN', 'Teams')
+    # lname = request.GET.get('lName', 'default')
+    # Cname = request.GET.get('cName', 'default')
+    # CSSN = request.GET.get('SSN', 'default')
+    # teams = request.GET.get('Teams', 'default')
+    # params = {'lName':lname, 'CName': Cname, 'SSN': CSSN, 'teams' : teams}
+    params = {'result': insert_league(abc)}     # dispute here.
+    return render(request, 'league/leagueResult.html', params)
+
 def date(request):
     template = loader.get_template('date/date.html')
     return HttpResponse(template.render())
