@@ -40,12 +40,17 @@ def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100
 			#return False																	# HINT: this check can be added to the previous loop to know which team is assigned
 
 	try:
-		Leagues.insert_one(inLeagues)	
-		insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100)
-
-		print("insert_league: League succ insertion")
-		___res= "League succ insertion"
-		#return True
+		LeagueId=Leagues.insert_one(inLeagues)	
+		if insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCall=True) == True:
+			print("insert_league: League succ insertion")
+			___res= "League succ insertion"
+			#return True
+		else:
+			Leagues.delete_one({"_id":LeagueId.inserted_id})
+			print("insert_league: Season problem, insertion aborted")
+			___res= "Season problem"
+			#return True
+		
 	except pymongo.errors.DuplicateKeyError:												# hundling the DuplicateKeyError exception
 		print("insert_league: DuplicateKeyError handled Succecefully")
 		___res="Duplicate League Name detected"
@@ -101,7 +106,7 @@ def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCal
 				return ___res
 			
 		else: 																			# if games prob then remove the inserted season.
-			Seasons.delete_one({"e":Season_dict["_id"]})
+			Seasons.delete_one({"_id":SeasonId.inserted_id})
 			if inTeamCall== True:
 				return True
 			else:
@@ -288,7 +293,7 @@ def change_date(newDate):
 
 #----------------------------------------------------------Querys----------------------------------------------------------------------------------
 
-def season_query(league, sDate, eDate):	#Done													# parameters should be str dayFormat= "%Y-%m-%d"
+def season_info_query(league, sDate, eDate):	#Done												# parameters should be str dayFormat= "%Y-%m-%d"
 	season=Seasons.find_one({"lName":league, "sDate":sDate, "eDate":eDate})
 	if (season == None):
 		print("season_query: No such season")
@@ -301,7 +306,7 @@ def season_query(league, sDate, eDate):	#Done													# parameters should be
 	return sortedStanding	
 	#return True
 
-def game_query(team1, team2):																	# team1/2 should be str
+def game_info_query(team1, team2):																	# team1/2 should be str
 	gQueryOrgnizer={}
 	matchCondition={"$match": {"Record."+team1:{"$exists": 1}, "Record."+team2:{"$exists": 1}}}
 	groupCondition={"$group": { "_id": "$SeasonId", "Games":{"$addToSet": {"game":(str('$'+"Record."+team1),str('$'+"Record."+team2),"$Date")}} }}
