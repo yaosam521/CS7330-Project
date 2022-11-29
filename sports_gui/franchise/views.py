@@ -79,3 +79,7 @@ def resultsEntered(request):
 def manual_insert_teams(request):
     template = loader.get_template('manual_insert_teams.html')
     return HttpResponse(template.render())
+
+def insert_games(request):
+    template = loader.get_template('insert_games.html')
+    return HttpResponse(template.render())
