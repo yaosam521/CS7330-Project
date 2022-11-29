@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Franchise of Extraordinary Gentlemen</title>
+    {% include './common/bootstrap_cdn.html' %}
+  </head>
+  <body>
+    {% include './common/navbar.html' %}
+    <!-- Everything you need to write goes here! -->
+    <div class="container">
+      <br>
+      <h1>Enter Game Results</h1>
+      <form action="">
+        <label for="team1">Team 1</label>
+        <input type="text" name="team1" id="team1">
+        <br>
+        <label for="team1Score">Team 1 Score</label>
+        <input type="number" name="team1Score" id="team1Score">
+        <br>
+        <label for="team2">Team2</label>
+        <input type="text" name="team2" id="team2">
+        <br>
+        <label for="team2Score">Team 2 Score</label>
+        <input type="number" name="team2Score" id="team2Score">
+        <br>
+        <label for="datePlayed">Date Played</label>
+        <input type="date" name="datePlayed" id="datePlayed">
+        <br>
+        <button type="submit" class="btn btn-primary">Submit Game Results</button>
+      </form>
+    </div>
+    {% include './common/bootstrap_js.html' %}
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Franchise of Extraordinary Gentlemen</title>
+    {% include '../common/bootstrap_cdn.html' %}
+  </head>
+  <body>
+    {% include '../common/navbar.html' %}
+    <!-- Everything you need to write goes here! -->
+    <div class="container">
+        <h1>Season Query</h1>
+        <form action="">
+            <label for="lName">League Name</label>
+            <input type="text" name="lName" id="lName">
+
+            <label for="sDate">Season Start Date</label>
+            <input type="date" name="sDate" id="sDate">
+
+            <label for="eDate">Season End Date</label>
+            <input type="date" name="eDate" id="eDate">
+
+            <button type="submit" class="btn btn-primary">Find Season</button>
+        </form>
+        <br>
+        <h1>Query Result</h1>
+    </div>
+    {% include '../common/bootstrap_js.html' %}
+  </body>
+</html>

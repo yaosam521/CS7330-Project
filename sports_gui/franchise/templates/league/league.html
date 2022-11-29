@@ -10,7 +10,137 @@
   <body>
     {% include '../common/navbar.html' %}
     <div class="container">
-        <h1>We going to the League</h1>  
+      <br>
+        <h1>Enter a new League Here!</h1>
+        <form action="#" name="newLeague" >
+          <label for="lName" class="form-label">Enter League Name</label>
+          <input type="text" id = "lName" name="lName" oninput="checkForm()">
+          <br>
+          <label for="cName">Enter Commissioner</label>
+          <input type="text" id="cName" name="cName" oninput="checkForm()">
+          <br>
+          <label for="SSN">Enter Commissioner's SSN</label>
+          <input type="text" id="SSN" name="SSN" oninput="checkForm()">
+          <br>
+          <label for="Teams">Enter Teams (separate with commas)</label>
+          <input type="text" id="Teams" name="Teams" oninput="checkForm()">
+          <br>
+          <h4>Tip: Creating a League creates its first season</h4>
+          <label for="startDate">Start Date</label>
+          <input type="date" id="startDate" name="startDate" oninput="checkForm()">
+          <br>
+          <label for="endDate">End Date</label>
+          <input type="date" id="endDate" name="endDate" oninput="checkForm()">
+          <br>
+          <label for="gameSchedule">Game Scheduling Option:</label>
+          <select id="gameSchedule" name="gameSchedule" oninput="checkForm()">
+            <option value="1">Automatic Scheduling</option>
+            <option value="3">Don't Insert Games</option>
+          </select>
+          <br>
+          <button type="submit" class="btn btn-primary" id="autoSubmit">Create Season</button>
+        </form>
+        <h1>Or Manually Insert the Teams</h1>
+        <form>
+          <button type="submit" class="btn btn-secondary" id = "manualSubmit" disabled>Schedule Teams</button>
+        </form>
+
+        <script>
+          function checkForm(){
+            canSubmit = true;
+            items = [];
+            lName = document.forms["newLeague"]["lName"].value;
+            cName = document.forms["newLeague"]["cName"].value;
+            SSN = document.forms["newLeague"]["SSN"].value;
+            teams = document.forms["newLeague"]["Teams"].value;
+            startDate = document.forms["newLeague"]["startDate"].value;
+            endDate = document.forms["newLeague"]["endDate"].value;
+            gSchedule = document.forms["newLeague"]["gameSchedule"].value;
+            items.push(lName, cName,SSN,teams,startDate,endDate,gSchedule);
+            for(i=0; i < items.length; i++){
+              if (items[i].length == 0){
+                canSubmit = false;
+              }
+            }
+            document.getElementById("manualSubmit").disabled = !canSubmit;
+          }
+        </script>
+
+        <br>
+        <br>
+        <h1>Enter a new Team Here!</h1>
+        <form>
+          <label for="tName">Team Name</label>
+          <input type="text" id="tName" name="tName">
+          <br>
+          <label for="City">City</label>
+          <input type="text" id="City" name="City">
+          <br>
+          <label for="State">State:</label>
+          <select id="State" name="State">
+            <option selected>State</option>
+            <option value="AL">AL</option>
+            <option value="AK">AK</option>
+            <option value="AZ">AZ</option>
+            <option value="AR">AR</option>
+            <option value="CA">CA</option>
+            <option value="CO">CO</option>
+            <option value="CT">CT</option>
+            <option value="DE">DE</option>
+            <option value="DC">DC</option>
+            <option value="FL">FL</option>
+            <option value="GA">GA</option>
+            <option value="HI">HI</option>
+            <option value="ID">ID</option>
+            <option value="IL">IL</option>
+            <option value="IN">IN</option>
+            <option value="IA">IA</option>
+            <option value="KS">KS</option>
+            <option value="KY">KY</option>
+            <option value="LA">LA</option>
+            <option value="ME">ME</option>
+            <option value="MD">MD</option>
+            <option value="MA">MA</option>
+            <option value="MI">MI</option>
+            <option value="MN">MN</option>
+            <option value="MS">MS</option>
+            <option value="MO">MO</option>
+            <option value="MY">MY</option>
+            <option value="NE">NE</option>
+            <option value="NV">NV</option>
+            <option value="NH">NH</option>
+            <option value="NJ">NJ</option>
+            <option value="NM">NM</option>
+            <option value="NY">NY</option>
+            <option value="NC">NC</option>
+            <option value="ND">ND</option>
+            <option value="OH">OH</option>
+            <option value="OK">OK</option>
+            <option value="OR">OR</option>
+            <option value="PA">PA</option>
+            <option value="RI">RI</option>
+            <option value="SC">SC</option>
+            <option value="SD">SD</option>
+            <option value="TN">TN</option>
+            <option value="TX">TX</option>
+            <option value="UT">UT</option>
+            <option value="VT">VT</option>
+            <option value="VA">VA</option>
+            <option value="WA">WA</option>
+            <option value="WV">WV</option>
+            <option value="WI">WI</option>
+            <option value="WY">WY</option>
+          </select>
+          <br>
+          <label for="Field">Field Name</label>
+          <input type="text" id="Field" name="Field">
+          <br>
+          <label for="Rating">Rating</label>
+          <input type="text" id="Rating" name="Rating">
+          <br>
+          <button type="submit" class="btn btn-primary">Create Team</button>
+        </form>
+        <br>
     </div>
     {% include '../common/bootstrap_js.html' %}
   </body>
