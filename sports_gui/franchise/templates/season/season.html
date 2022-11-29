@@ -11,15 +11,15 @@
     {% include '../common/navbar.html' %}
     <div class="container">
       <h1>Create a Season</h1>
-      <form>
+      <form id="newSeason">
         <label for="lName">League Name</label>
-        <input type="text" id="lName" name="lName">
+        <input type="text" id="lName" name="lName" oninput="checkForm()">
         <br>
         <label for="sDate">Start Date</label>
-        <input type="date" id="sDate" name="sDate">
+        <input type="date" id="sDate" name="sDate" oninput="checkForm()">
         <br>
         <label for="eDate">End Date</label>
-        <input type="date" id="eDate" name="eDate">
+        <input type="date" id="eDate" name="eDate" oninput="checkForm()">
         <br>
         <label for="gameSchedule">Game Scheduling Option:</label>
         <select id="gameSchedule" name="gameSchedule">
@@ -28,19 +28,52 @@
         </select>
         <br>
         <label for="gNumber">Number of Games</label>
-        <input type="number" id="gNumber" name="gNumber" min="0">
+        <input type="number" id="gNumber" name="gNumber" min="0" oninput="checkForm()">
         <br>
-        <button type="submit" class="btn btn-primary">Create Season</button>
+        <label for="maxGames">Max Games per Day</label>
+        <input type="number" id="maxGames" name="maxGames" oninput="checkForm()">
+        <br>
+        <button type="submit" class="btn btn-primary" id="autoSubmit" disabled>Create Season</button>
         <br>
       </form>
       <br>
       <h1>Or Manually Insert the Teams</h1>
-      <form action="/manual_insert_teams">
+      <form action="/manual_insert_teams" id="manualSeason">
         <label for="lName">League Name</label>
-        <input type="text" id="lName" name="lName">
-        <button type="submit" class="btn btn-secondary">Schedule Teams</button>
+        <input type="text" id="lName" name="lName" oninput="checkManual()">
+        <button type="submit" class="btn btn-secondary" id="manualSubmit" disabled>Schedule Teams</button>
       </form>
     </div>
+
+    <script>
+      function checkForm(){
+        canSubmit = true;
+        items = [];
+        lName = document.forms["newSeason"]["lName"].value;
+        startDate = document.forms["newSeason"]["sDate"].value;
+        endDate = document.forms["newSeason"]["eDate"].value;
+        gSchedule = document.forms["newSeason"]["gameSchedule"].value;
+        gNumber = document.forms["newSeason"]["gNumber"].value;
+        maxGames = document.forms["newSeason"]["maxGames"].value;
+        items.push(lName,startDate,endDate,gSchedule,gNumber,maxGames);
+        for(i=0; i < items.length; i++){
+          if (items[i].length == 0){
+            canSubmit = false;
+          }
+        }
+        document.getElementById("autoSubmit").disabled = !canSubmit;
+      }
+
+      function checkManual(){
+        canSubmit = true;
+        lName = document.forms["manualSeason"]["lName"].value;
+        if (lName.length == 0){
+          canSubmit = false;
+        }
+        document.getElementById("manualSubmit").disabled = !canSubmit;
+      }
+    </script>
+
     {% include '../common/bootstrap_js.html' %}
   </body>
 </html>
