@@ -62,7 +62,7 @@ def move_teams(request):
     return HttpResponse(template.render())
 
 def teamEntry(request):
-    tName = request.GET.get('text', 'default')
+    tName = request.GET.get('teamQuery', 'default')
     print(tName)
     params = {'result': team_info_query(tName)}
     return render(request, 'teamEntry/teamEntry.html', params)
