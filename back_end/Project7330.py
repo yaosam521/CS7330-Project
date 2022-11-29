@@ -12,7 +12,8 @@ inTeams=[{"tName":"A","City": "testcity", "State": "testState", "Field": "A Home
 {"tName":"E","City": "testcity2", "State": "testState2", "Rating": -34211.4},
 {"tName":"F","City": "testcity2", "State": "testState2", "Rating": -34211.4}]
 
-inSeasons={"lName": "test League2", "sDate": "2020-01-01","eDate": "2020-06-20", "gNumber": 2, "sRules": {"win":3, "draw": 1, "lose":0}}
+inSeasons={"lName": "test League", "sDate": "2020-01-01","eDate": "2020-06-20", "gNumber": 2, "sRules": {"win":3, "draw": 1, "lose":0}}
+inSeasonsManu={"lName": "test League", "sDate": "2020-07-01","eDate": "2020-08-20", "gNumber": 2, "sRules": {"win":3, "draw": 1, "lose":0}}
 
 inGames=[{"Record":{"A": None, "B": None}, "Field": "testfield", "Date":"2020-01-01"},
 		 {"Record":{"C": None, "D": None}, "Field": "testfield", "Date":"2020-01-01"},
@@ -25,10 +26,11 @@ init_date()
 	
 
 
-insert_league(inLeagues2)
+insert_league(inLeagues)
 for team in inTeams:
 	insert_team(team)
 insert_season(inSeasons, autoInsertion, maxPerDay= 3, inGames=inGames)
+insert_season(inSeasonsManu, False, maxPerDay= 3)
 insert_game_res("E", -12, "D", 0, "2020-01-01", t1Rating=-34211.4, replace=True)
 move_team("A", "test League2", "test League", "2020-07-23")
 season_query("test League", "2020-01-01", "2020-06-20")

@@ -21,7 +21,7 @@ Games=mydb["Games"]																			# create a collection named Games
 Dates=mydb["Dates"]	
 
 graph=defaultdict(list)
-
+# what i need
 def insert_league(inLeagues, checkForTeams=False):# Done
 	# Start working on Leagues collection---------------------------------------------------------------------------------------------------
 	if checkForTeams:
@@ -82,6 +82,10 @@ def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100):# until i
 		for team in leagueInfo["Teams"]:												# create the standing key/value
 			standingInitiator.update({team: 0})	
 		inSeasons.update({"Standing":standingInitiator})								# add it to our inSeason dict
+		if autoInsertion==True or inGames != {}:
+			inSeasons.update({"gInserted": True})
+		else:
+			inSeasons.update({"gInserted": False})
 		SeasonId=Seasons.insert_one(inSeasons)											# insert season and retreive the id to rollback if prob in games										
 		if insert_games(Seasons.find_one({"_id":SeasonId.inserted_id}), autoInsertion, inGames, leagueInfo["Teams"], maxPerDay, inSeasonCall=True) == True:
 			print("insert_season: Season succ insertion")
@@ -107,7 +111,11 @@ def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, ma
 	if autoInsertion == False :																	# requested Manual insertion.
 		if inGames == {}:
 			print("insert_game: user can't go to further then this date: %s without games insertion ;p" %(Season_dict["sDate"]))
+			if inSeasonCall== True:
 			return True
+		else:
+			___res="user can't go to further then this date:"+Season_dict["sDate"]+"without games insertion ;p"
+			return ___res
 		for game in inGames:
 			game.update({"SeasonId":Season_dict["_id"]})
 		Games.insert_many(inGames)																# GUI responsibility to maintain the consistency
