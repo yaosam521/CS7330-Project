@@ -13,5 +13,6 @@ urlpatterns = [
     path('ratings_query/',views.ratings_query, name='ratings_query'),
     path('season_query/',views.season_query, name='season_query'),
     path('results/',views.results, name='results'),
-    path('move_teams/',views.move_teams, name='move_teams')
+    path('move_teams/',views.move_teams, name='move_teams'),
+    path('manual_insert_teams/',views.manual_insert_teams, name='manual_insert_teams')
 ]

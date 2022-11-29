@@ -4,7 +4,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta 													#used to modify/compare dates for games insertion
 # Lib End 	
 
-client = pymongo.MongoClient() 																# connect to client [localhost]
+client = pymongo.MongoClient('localhost', 27017) 																# connect to client [localhost]
 mydb=client["pp"]																			# Create Db called P1_T1
 
 Leagues=mydb["Leagues"]																		# create a collection named Leagues

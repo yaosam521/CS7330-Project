@@ -46,3 +46,7 @@ def results(request):
 def move_teams(request):
     template = loader.get_template('move_teams.html')
     return HttpResponse(template.render())
+
+def manual_insert_teams(request):
+    template = loader.get_template('manual_insert_teams.html')
+    return HttpResponse(template.render())

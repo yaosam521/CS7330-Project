@@ -12,35 +12,60 @@
     <div class="container">
       <br>
         <h1>Enter a new League Here!</h1>
-        <form action="#">
+        <form action="#" name="newLeague" >
           <label for="lName" class="form-label">Enter League Name</label>
-          <input type="text" id = "lName" name="lName">
+          <input type="text" id = "lName" name="lName" oninput="checkForm()">
           <br>
           <label for="cName">Enter Commissioner</label>
-          <input type="text" id="cName" name="cName">
+          <input type="text" id="cName" name="cName" oninput="checkForm()">
           <br>
           <label for="SSN">Enter Commissioner's SSN</label>
-          <input type="text" id="SSN" name="SSN">
+          <input type="text" id="SSN" name="SSN" oninput="checkForm()">
           <br>
-          <label for="Teams">Enter Teams</label>
-          <input type="text" id="Teams" name="Teams">
+          <label for="Teams">Enter Teams (separate with commas)</label>
+          <input type="text" id="Teams" name="Teams" oninput="checkForm()">
           <br>
           <h4>Tip: Creating a League creates its first season</h4>
           <label for="startDate">Start Date</label>
-          <input type="date" id="startDate" name="startDate">
+          <input type="date" id="startDate" name="startDate" oninput="checkForm()">
           <br>
           <label for="endDate">End Date</label>
-          <input type="date" id="endDate" name="endDate">
+          <input type="date" id="endDate" name="endDate" oninput="checkForm()">
           <br>
           <label for="gameSchedule">Game Scheduling Option:</label>
-          <select id="gameSchedule" name="gameSchedule">
-            <option value="1">1 - Automatic Scheduling</option>
-            <option value="2">2 - Manual Scheduling</option>
-            <option value="3">3 - Don't Insert Games</option>
+          <select id="gameSchedule" name="gameSchedule" oninput="checkForm()">
+            <option value="1">Automatic Scheduling</option>
+            <option value="3">Don't Insert Games</option>
           </select>
           <br>
-          <button type="submit" class="btn btn-primary">Create Season</button>
+          <button type="submit" class="btn btn-primary" id="autoSubmit">Create Season</button>
         </form>
+        <h1>Or Manually Insert the Teams</h1>
+        <form>
+          <button type="submit" class="btn btn-secondary" id = "manualSubmit" disabled>Schedule Teams</button>
+        </form>
+
+        <script>
+          function checkForm(){
+            canSubmit = true;
+            items = [];
+            lName = document.forms["newLeague"]["lName"].value;
+            cName = document.forms["newLeague"]["cName"].value;
+            SSN = document.forms["newLeague"]["SSN"].value;
+            teams = document.forms["newLeague"]["Teams"].value;
+            startDate = document.forms["newLeague"]["startDate"].value;
+            endDate = document.forms["newLeague"]["endDate"].value;
+            gSchedule = document.forms["newLeague"]["gameSchedule"].value;
+            items.push(lName, cName,SSN,teams,startDate,endDate,gSchedule);
+            for(i=0; i < items.length; i++){
+              if (items[i].length == 0){
+                canSubmit = false;
+              }
+            }
+            document.getElementById("manualSubmit").disabled = !canSubmit;
+          }
+        </script>
+
         <br>
         <br>
         <h1>Enter a new Team Here!</h1>
@@ -115,6 +140,7 @@
           <br>
           <button type="submit" class="btn btn-primary">Create Team</button>
         </form>
+        <br>
     </div>
     {% include '../common/bootstrap_js.html' %}
   </body>
