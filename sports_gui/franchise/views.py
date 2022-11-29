@@ -65,7 +65,12 @@ def teamEntry(request):
     tName = request.GET.get('teamQuery', 'default')
     print(tName)
     params = {'result': team_info_query(tName)}
-    return render(request, 'teamEntry/teamEntry.html', params)
+    return render(request, 'queryResults/teamEntry.html', params)
+
+def lq_result(request):
+    lq = request.GET.get('leagueQuery')
+    params = {'result':league_info_query(lq)}
+    return render(request, 'queryResults/lq_result.html', params)
 
 def resultsEntered(request):
     teamName1 = request.GET.get('team1', 'default')
