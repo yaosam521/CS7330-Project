@@ -26,7 +26,7 @@ init_date()
 	
 
 
-insert_league(inLeagues)
+insert_league(inLeagues2)
 for team in inTeams:
 	insert_team(team)
 insert_season(inSeasons, autoInsertion, maxPerDay= 3, inGames=inGames)
