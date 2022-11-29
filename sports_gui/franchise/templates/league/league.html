@@ -12,7 +12,7 @@
     <div class="container">
       <br>
         <h1>Enter a new League Here!</h1>
-        <form action="#" name="newLeague" >
+        <form action='/leagueResult' name="newLeague" >
           <label for="lName" class="form-label">Enter League Name</label>
           <input type="text" id = "lName" name="lName" oninput="checkForm()">
           <br>
@@ -37,6 +37,10 @@
             <option value="1">Automatic Scheduling</option>
             <option value="3">Don't Insert Games</option>
           </select>
+
+          <label for="maxGames">Max Games per Day</label>
+          <input type="number" id="maxGames" name="maxGames" oninput="checkForm()">
+          
           <br>
           <button type="submit" class="btn btn-primary" id="autoSubmit" disabled>Create Season</button>
           <h1>Or Manually Insert the Teams</h1>
