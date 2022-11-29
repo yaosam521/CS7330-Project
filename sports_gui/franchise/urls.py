@@ -17,5 +17,6 @@ urlpatterns = [
     path('teamEntry/', views.teamEntry, name = 'teamEntry'),
     path('resultsEntered/', views.resultsEntered, name = 'resultsEntered'),
     path('leagueResult', views.leagueResult, name = 'leagueResult'),
-    path('manual_insert_teams/',views.manual_insert_teams, name='manual_insert_teams')
+    path('manual_insert_teams/',views.manual_insert_teams, name='manual_insert_teams'),
+    path('insert_games/', views.insert_games, name = 'insert_games')
 ]

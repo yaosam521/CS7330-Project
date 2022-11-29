@@ -325,7 +325,7 @@ def team_info_query(tName):
 def team_records_query(tName):																	# tName should be str
 	tQueryOrgnizer={}
 	matchCondition={"$match": {"Record."+tName:{"$ne": None}}}
-	groupCondition={"$group": { "_id": "$SeasonId", "Games":{"$addToSet": "$Record"}, "count": {"$count": {}} }}
+	groupCondition={"$group": { "_id": "$SeasonId", "Games":{"$addToSet": "$Record"}, "count": {"$sum": {}} }}
 	groupedPerSeason=Games.aggregate([matchCondition, groupCondition])
 	adeedFields={"nWins": 0, "nDraws":0, "nLoses":0, "scoreSum":0, "opScoreSum":0}
 	noRes=1
