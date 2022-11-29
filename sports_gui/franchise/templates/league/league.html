@@ -38,10 +38,8 @@
             <option value="3">Don't Insert Games</option>
           </select>
           <br>
-          <button type="submit" class="btn btn-primary" id="autoSubmit">Create Season</button>
-        </form>
-        <h1>Or Manually Insert the Teams</h1>
-        <form>
+          <button type="submit" class="btn btn-primary" id="autoSubmit" disabled>Create Season</button>
+          <h1>Or Manually Insert the Teams</h1>
           <button type="submit" class="btn btn-secondary" id = "manualSubmit" disabled>Schedule Teams</button>
         </form>
 
@@ -63,6 +61,7 @@
               }
             }
             document.getElementById("manualSubmit").disabled = !canSubmit;
+            document.getElementById("autoSubmit").disabled = !canSubmit;
           }
         </script>
 

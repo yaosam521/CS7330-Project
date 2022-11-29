@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Franchise of Extraordinary Gentlemen</title>
+    {% include './common/bootstrap_cdn.html' %}
+  </head>
+  <body>
+    {% include './common/navbar.html' %}
+    <div class="container">
+        <h1>Insert Games</h1>
+        <form action="">
+            <label for="lName">League Name</label>
+            <input type="text" name="lName" id="lName">
+
+            <label for="sDate">Start Date</label>
+            <input type="date" name="sDate" id="sDate">
+
+            <label for="eDate">End Date</label>
+            <input type="date" name="eDate" id="eDate">
+
+            <label for="autoInsert">Automatically Insert Games?</label>
+            <input type="checkbox" name="autoInsert" id="autoInsert">
+
+            <button type="submit" class="btn btn-primary">Insert Games</button>
+        </form>
+    </div>
+    {% include './common/bootstrap_js.html' %}
+  </body>
+</html>
