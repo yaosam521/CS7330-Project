@@ -10,14 +10,15 @@
   <body>
     {% include '../common/navbar.html' %}
     <div class="container">
-      <h1>Team Query</h1>
-      <form action='/teamEntry' method='get'>
-          <label for="teamQuery">Enter the Team Name</label>
-          <input type="text" id="teamQuery" name="teamQuery">
-          <button type="submit" class="btn btn-primary">Find</button>
-      </form>
-      <br>
       <h1>Query Results</h1>
+      <p>
+        Name: {{result.tName}}<br>
+        City: {{result.City}}<br>
+        State: {{result.State}}<br>
+        Field: {{result.Field}}<br>
+        Rating: {{result.Rating}}
+       </p>
+       <br>
     </div>
     {% include '../common/bootstrap_js.html' %}
   </body>

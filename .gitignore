@@ -1,5 +1,6 @@
 .DS_Store
 proj_venv/
-sports_gui/franchise/__pycache__
-sports_gui/sports_gui/__pycache__
-back_end/__pycache__
+sports_gui/franchise/__pycache__/
+sports_gui/sports_gui/__pycache__/
+sports_gui/franchise/migrations/__pycache__/
+back_end/__pycache__/

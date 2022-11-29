@@ -9,15 +9,15 @@
   </head>
   <body>
     {% include '../common/navbar.html' %}
+    <!-- Everything you need to write goes here! -->
     <div class="container">
-      <h1>Team Query</h1>
-      <form action='/teamEntry' method='get'>
-          <label for="teamQuery">Enter the Team Name</label>
-          <input type="text" id="teamQuery" name="teamQuery">
-          <button type="submit" class="btn btn-primary">Find</button>
-      </form>
       <br>
-      <h1>Query Results</h1>
+      <h1>Entered Game Results</h1>
+      Team 1 : {{team1}}<br>
+      Team 1 Score : {{team1Score}}<br>
+      <br>
+      Team 2 : {{team2}}<br>
+      Team 2 Score : {{team2Score}}
     </div>
     {% include '../common/bootstrap_js.html' %}
   </body>
