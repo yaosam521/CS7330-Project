@@ -10,6 +10,110 @@
   <body>
     {% include './common/navbar.html' %}
     <div class="container">
+        {# if coming from league #}
+          <h1>Coming from League</h1>
+          <label for="lName" class="form-label">Enter League Name</label>
+          <input type="text" id = "lName" name="lName" value="{{length}}" disabled>
+          <br>
+          <label for="cName">Enter Commissioner</label>
+          <input type="text" id="cName" name="cName" value="{{length}}" disabled>
+          <br>
+          <label for="SSN">Enter Commissioner's SSN</label>
+          <input type="text" id="SSN" name="SSN" value="{{length}}"  disabled>
+          <br>
+          <label for="Teams">Enter Teams (separate with commas)</label>
+          <input type="text" id="Teams" name="Teams" value="{{length}}"  disabled>
+          <br>
+          <h4>Tip: Creating a League creates its first season</h4>
+          <label for="startDate">Start Date</label>
+          <input type="date" id="startDate" name="startDate" value="{{length}}"  disabled>
+          <br>
+          <label for="endDate">End Date</label>
+          <input type="date" id="endDate" name="endDate" value="{{length}}}" disabled>
+          <br>
+          <label for="maxGames">Max Games per Day</label>
+          <input type="number" id="maxGames" name="maxGames"  value="{{length}}"  min="0" disabled>
+          <br>
+          <label for="gNumber">Number of Games</label>
+          <input type="number" id="gNumber" name="gNumber" min="0"  value="{{length}}"  disabled>
+          <br>
+          <h3>Game Rules</h3>
+          <label for="wins">Wins</label>
+          <input type="number" id="wins" name="wins" min="0" value="{{length}}"  disabled>
+          <label for="loss">Losses</label>
+          <input type="number" id="loss" name="loss" min="0" value="{{length}}"  disabled>
+          <label for="wins">draw</label>
+          <input type="number" id="draw" name="draw" min="0" value="{{length}}"  disabled>
+        {# if coming from season #}
+          <h1>Coming from Season</h1>
+          <form id="newSeason">
+            <label for="lName">League Name</label>
+            <input type="text" id="lName" name="lName"  value="{{length}}" disabled>
+            <br>
+            <label for="sDate">Start Date</label>
+            <input type="date" id="sDate" name="sDate"  value="{{length}}" disabled>
+            <br>
+            <label for="eDate">End Date</label>
+            <input type="date" id="eDate" name="eDate"  value="{{length}}" disabled>
+            <br>
+            <label for="gameSchedule">Game Scheduling Option:</label>
+            <select id="gameSchedule" name="gameSchedule">
+              <option value="1">Automatic Scheduling</option>
+              <option value="3">Don't Insert Games</option>
+            </select>
+            <br>
+            <label for="gNumber">Number of Games</label>
+            <input type="number" id="gNumber" name="gNumber" min="0"  value="{{length}}" disabled>
+            <br>
+            <label for="maxGames">Max Games per Day</label>
+            <input type="number" id="maxGames" name="maxGames"  value="{{length}}" disabled>
+            <br>
+            <h3>Game Rules</h3>
+            <label for="wins">Wins</label>
+            <input type="number" id="wins" name="wins" min="0"  value="{{length}}" disabled>
+            <label for="loss">Losses</label>
+            <input type="number" id="loss" name="loss" min="0"  value="{{length}}" disabled>
+            <label for="wins">draw</label>
+            <input type="number" id="draw" name="draw" min="0"  value="{{length}}" disabled>
+            <br>
+          {# if coming from games #}
+            <h1>Coming From Insert Games</h1>
+            <form action="" id="insertGames">
+                <label for="lName">League Name</label>
+                <input type="text" name="lName" id="lName"  value="{{length}}" disabled>
+    
+                <label for="sDate">Start Date</label>
+                <input type="date" name="sDate" id="sDate"  value="{{length}}" disabled>
+    
+                <label for="eDate">End Date</label>
+                <input type="date" name="eDate" id="eDate"  value="{{length}}" disabled>
+    
+                <label for="autoInsert">Auto Insert?</label>
+                <select name="autoInsert" id="autoInsert"  value="{{length}}" disabled>
+                  <option value="-1" Default>-</option>
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+    
+                <label for="maxGames">Max # of Games</label>
+                <input type="number" name="maxGames" id="maxGames"  value="{{length}}" disabled>
+                <br>
+
+                <h1>Scroll down for the manual insert teams</h1>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+          
+
+
         <h1 onclick="test()">Manual Teams</h1>
         <p>Set the date and field for each game about to happen</p><br>
         {{result}}
@@ -23,20 +127,7 @@
             <br>
           {% endfor %}
             <button id="manualTeamSubmit" class="btn btn-primary" disabled>Enter Teams</button>
-          <p id="teamNumber" style="color: white;">{{length}}</p><!--A Cheat way to store the length of the array lmao-->
-          <p id="teamNumber" style="color: white;" name="lName">{{lName}}</p>
-          <p id="teamNumber" style="color: white;" name="cName">{{cName}}</p>
-          <p id="teamNumber" style="color: white;" name="cSSN">{{cSSN}}</p>
-          <p id="teamNumber" style="color: white;" name="teams">{{teams}}</p>
-          <p id="teamNumber" style="color: white;" name="startDate">{{startDate}}</p>
-          <p id="teamNumber" style="color: white;" name="endDate">{{endDate}}</p>
-          <p id="teamNumber" style="color: white;" name="gSchedule">{{gSchedule}}</p>
-          <p id="teamNumber" style="color: white;" name="win">{{win}}</p> 
-          <p id="teamNumber" style="color: white;" name="loss">{{loss}}</p> 
-          <p id="teamNumber" style="color: white;" name="draw">{{draw}}</p> 
-        </form>
-        
-      
+        </form> 
     </div>
     <script>
       function test(){

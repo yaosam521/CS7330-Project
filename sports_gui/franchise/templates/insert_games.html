@@ -27,9 +27,13 @@
               <option value="0">No</option>
               <option value="1">Yes</option>
             </select>
-            <button type="submit" class="btn btn-primary" id="autoSubmit" disabled>Auto Insert Games</button>
 
+            <label for="maxGames">Max # of Games</label>
+            <input type="number" name="maxGames" id="maxGames" oninput="checkForm()">
+            <br>
+            <button type="submit" class="btn btn-primary" id="autoSubmit" disabled>Auto Insert Games</button>
             <button type="submit" class="btn btn-primary" id="manualSubmit" formaction="/manual_insert_teams" disabled>Manual Insert Games</button>
+            <input type="text" name="comingFrom" value="insert_games" style="opacity: 0">
         </form>
     </div>
     <script>
@@ -40,8 +44,9 @@
           startDate = document.forms["insertGames"]["sDate"].value;
           endDate = document.forms["insertGames"]["eDate"].value;
           autoInsert = document.forms["insertGames"]["autoInsert"].value;
+          maxGames = document.forms["insertGames"]["maxGames"].value;
           
-          items.push(lName, startDate,endDate,autoInsert);
+          items.push(lName, startDate,endDate,autoInsert,maxGames);
           for(i=0; i < items.length; i++){
             if (items[i].length == 0 || autoInsert == -1){
               canSubmit = false;
