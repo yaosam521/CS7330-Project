@@ -281,6 +281,11 @@ def init_date():
 	if Dates.find_one()==None:
 		Dates.insert_one({"Current":"2022/01/01"})
 
+def get_date():
+	dateDict=Dates.find_one()
+	print(dateDict["Current"])
+	return dateDict["Current"]
+
 def change_date(newDate):
 	dateDict=Dates.find_one()
 	if dateDict["Current"] > newDate :
@@ -300,7 +305,7 @@ def get_season_sets(lName, nGames):
 		___res="get_season_sets: no such league"
 		print(___res)
 		return ___res
-		
+
 	CompetingTeams=league["Teams"]
 	games_sets=[]	
 	for gNumber in range(0,nGames):								
