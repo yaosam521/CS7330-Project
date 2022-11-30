@@ -12,11 +12,15 @@
     <div class="container">
       <h1>Query Results</h1>
       <p>
-        <b>Name</b>: {{result.tName}}<br>
-        <b>City</b>: {{result.City}}<br>
-        <b>State</b>: {{result.State}}<br>
-        <b>Field</b>: {{result.Field}}<br>
-        <b>Rating</b>: {{result.Rating}}
+        {% if result.tName == null %}
+          <p>{{result}}</p>
+        {% else %}
+          <b>Name</b>: {{result.tName}}<br>
+          <b>City</b>: {{result.City}}<br>
+          <b>State</b>: {{result.State}}<br>
+          <b>Field</b>: {{result.Field}}<br>
+          <b>Rating</b>: {{result.Rating}}
+        {% endif %}
        </p>
        <br>
     </div>

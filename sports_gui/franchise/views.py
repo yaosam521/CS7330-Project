@@ -73,8 +73,10 @@ def lq_result(request):
     return render(request, 'queryResults/lq_result.html', params)
 
 def gq_result(request):
-    gq = request.GET.get('gameQuery')
-    params = {'result':game_query()}
+    t1 = request.GET.get('team1')
+    t2 = request.GET.get('team2')
+    params = {'result':game_info_query(t1,t2)}
+    return render(request, 'queryResults/gq_result.html', params)
     
 def sq_result(request):
     name = request.GET.get('lName')

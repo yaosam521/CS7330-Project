@@ -12,11 +12,15 @@
     <div class="container">
         <h1>League Query</h1><br>
         <p>
-            <b>League Name</b>: {{result.lName}}<br>
-            <b>Commissioner Name</b>: {{result.Comissioner.cName}}<br>
-            <b>Commissioner SSN</b>: {{result.Comissioner.SSN}}<br>
-            <b>Teams</b>: {{result.Teams}}<br>
-            <b>Seasons</b>: {{result.SeasonsCount}}
+            {% if result.lName == null %}
+                <p>{{result}}</p>
+            {% else %}
+                <b>League Name</b>: {{result.lName}}<br>
+                <b>Commissioner Name</b>: {{result.Comissioner.cName}}<br>
+                <b>Commissioner SSN</b>: {{result.Comissioner.SSN}}<br>
+                <b>Teams</b>: {{result.Teams}}<br>
+                <b>Seasons</b>: {{result.SeasonsCount}}
+            {% endif %}
         </p>
     </div>
     {% include '../common/bootstrap_js.html' %}

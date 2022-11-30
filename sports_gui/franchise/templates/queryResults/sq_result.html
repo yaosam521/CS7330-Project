@@ -13,14 +13,18 @@
     <div class="container">
         <h1>Season Query Result</h1>
         <p>
-            <b>League Name</b>: {{result.lName}}<br>
-            <b>Start Date</b>: {{result.sDate}}<br>
-            <b>End Date</b>: {{result.eDate}}<br>
-            <b>Number of Games</b>: {{result.gNumber}}<br>
-            <b>Season Rules</b>:<br>
-            <b>Wins</b>: {{result.sRules.win}}<br>
-            <b>Draws</b>: {{result.sRules.draw}}<br>
-            <b>Loses</b>: {{result.sRules.lose}}<br>
+            {% if result.lName == null %}
+                <p>{{result}}</p>
+            {% else %}
+                <b>League Name</b>: {{result.lName}}<br>
+                <b>Start Date</b>: {{result.sDate}}<br>
+                <b>End Date</b>: {{result.eDate}}<br>
+                <b>Number of Games</b>: {{result.gNumber}}<br>
+                <b>Season Rules</b>:<br>
+                <b>Wins</b>: {{result.sRules.win}}<br>
+                <b>Draws</b>: {{result.sRules.draw}}<br>
+                <b>Loses</b>: {{result.sRules.lose}}<br>
+            {%endif%}
         </p>
     </div>
     {% include '../common/bootstrap_js.html' %}
