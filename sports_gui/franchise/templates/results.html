@@ -29,9 +29,6 @@
         <label for="team2Rating">Team 2 Rating (optional)</label>
         <input type="number" name="team2Rating" id="team2Rating">
         <br>
-        <label for="datePlayed">Date Played</label>
-        <input type="date" name="datePlayed" id="datePlayed" oninput="checkForm()">
-        <br>
         <label for="forceUpdate">Force Update?</label>
         <select name="forceUpdate" id="forceUpdate" oninput="checkForm()">
           <option value="-1" Default>-</option>
@@ -48,7 +45,6 @@
           team1Score = document.forms["gameResults"]["team1Score"].value;
           team2 = document.forms["gameResults"]["team2"].value;
           team2Score = document.forms["gameResults"]["team2Score"].value;
-          datePlayed = document.forms["gameResults"]["datePlayed"].value;
           forceUpdate = document.forms["gameResults"]["forceUpdate"].value;
           items.push(team1,team1Score,team2,team2Score,datePlayed,forceUpdate);
           for(i = 0; i < items.length; i++){
