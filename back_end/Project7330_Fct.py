@@ -43,11 +43,13 @@ def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100
 		if insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCall=True) == True:
 			print("insert_league: League succ insertion")
 			___res= "League succ insertion"
+			return ___res
 			#return True
 		else:
 			Leagues.delete_one({"_id":LeagueId.inserted_id})
 			print("insert_league: Season problem, insertion aborted")
 			___res= "Season problem"
+			return ___res
 			#return True
 		
 	except pymongo.errors.DuplicateKeyError:												# hundling the DuplicateKeyError exception

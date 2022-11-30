@@ -25,17 +25,42 @@ def leagueResult(request):
     sdate = request.GET.get('startDate')
     edate = request.GET.get('endDate')
     gnum = request.GET.get('gNumber')
+    max = request.GET.get('maxGames')
     win = request.GET.get('wins')
     draw = request.GET.get('draw')
     loss = request.GET.get('loss')
-    inSeasons = {"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": gnum, "sRules": {"win":win, "draw": draw, "lose":loss}}
+    inSeasons = {"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": int(gnum), "sRules": {"win":int(win), "draw": int(draw), "lose":int(loss)}}
     ai = request.GET.get('gameSchedule')
     if ai ==1 :
         autoInsertion=True
     else:
         autoInsertion= False
-    params = {'result': insert_league(inLeagues,inSeasons,autoInsertion)}
+    params = {'result': insert_league(inLeagues,inSeasons,autoInsertion,maxPerDay=int(max))}
     return render(request, 'league/leagueResult.html', params)
+
+def manual_insert_teams(request):
+    lname = request.GET.get('lName')
+    Cname = request.GET.get('cName')
+    CSSN = request.GET.get('SSN')
+    teams = request.GET.get('Teams')
+    # teams_arr = teams.split(',')
+    inLeagues = {"lName": lname,"Comissioner": {"cName": Cname, "SSN": CSSN}, "Teams":teams}
+    sdate = request.GET.get('startDate')
+    edate = request.GET.get('endDate')
+    gnum = request.GET.get('gNumber')
+    max = request.GET.get('maxGames')
+    win = request.GET.get('wins')
+    draw = request.GET.get('draw')
+    loss = request.GET.get('loss')
+    inSeasons = {"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": int(gnum), "sRules": {"win":int(win), "draw": int(draw), "lose":int(loss)}}
+    ai = request.GET.get('gameSchedule')
+    if ai ==1 :
+        autoInsertion=True
+    else:
+        autoInsertion= False
+    params = {'result': insert_league(inLeagues,inSeasons,autoInsertion,maxPerDay=int(max)),'pairs': [("A","B"),("A","B"),("A","B"),("A","B")],'length':len([("A","B"),("A","B"),("A","B"),("A","B")])}
+    
+    return render(request, 'manual_insert_teams.html', params)
 
 
 def teamResult(request):
@@ -147,9 +172,7 @@ def resultsEntered(request):
 '''
 @Deepanshu Can you pass in the length of the list that contains all of the pairs?
 '''
-def manual_insert_teams(request):
-    params = {'pairs': [("A","B"),("A","B"),("A","B"),("A","B")],'length':len([("A","B"),("A","B"),("A","B"),("A","B")])}
-    return render(request, 'manual_insert_teams.html', params)
+
 
 def insert_games(request):
     template = loader.get_template('insert_games.html')

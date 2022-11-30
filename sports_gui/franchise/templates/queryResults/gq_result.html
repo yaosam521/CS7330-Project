@@ -11,8 +11,10 @@
     {% include '../common/navbar.html' %}
     <div class="container">
         <h1>Query Results</h1>
-            {{result}}<br>
-            {% if result.\ %}
+        {% for k in result %}
+          {{k}}
+        {%endfor%}
+
     </div>
     {% include '../common/bootstrap_js.html' %}
   </body>

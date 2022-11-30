@@ -11,7 +11,8 @@
     {% include './common/navbar.html' %}
     <div class="container">
         <h1 onclick="test()">Manual Teams</h1>
-        <p>Set the date and field for each game about to happen</p>
+        <p>Set the date and field for each game about to happen</p><br>
+        {{result.lName}}
         <form id="testForm">
           {% for i in pairs %}
             {{i}}
