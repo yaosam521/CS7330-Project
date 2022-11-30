@@ -10,16 +10,45 @@
   <body>
     {% include './common/navbar.html' %}
     <div class="container">
-        <h1>Manual Teams</h1>
+        <h1 onclick="test()">Manual Teams</h1>
         <p>Set the date and field for each game about to happen</p>
-        {# for pair in teams #}
-          {# print all the teams and the fields to edit the date and the fields #}
-          <label for="gameDate">Date</label>
-          <input type="text" name="gameDate" id="gameDate">
-          <label for="fieldName">Field</label>
-          <input type="text" name="fieldName" id="fieldName">
-        {# endfor #}
+        <form id="testForm">
+          {% for i in pairs %}
+            {{i}}
+            <label for="gameDate{{forloop.counter}}">Date</label>
+            <input type="date" name="gameDate{{forloop.counter}}" id="gameDate{{forloop.counter}}" oninput="test()">
+            <label for="fieldName">Field</label>
+            <input type="text" name="fieldName{{forloop.counter}}" id="fieldName{{forloop.counter}}" oninput="test()">
+            <br>
+          {% endfor %}
+            <button id="manualTeamSubmit" class="btn btn-primary" disabled>Enter Teams</button>
+        </form>
+        <p id="teamNumber" style="color: white;">{{length}}</p><!--A Cheat way to store the length of the array lmao-->
     </div>
+    <script>
+      function test(){
+        teams = document.getElementById("teamNumber").innerHTML;
+        form = document.getElementById("testForm");
+        items = [];
+        canSubmit = true;
+
+        // Code taken from 'https://bobbyhadz.com/blog/javascript-get-all-elements-in-form'
+        // I did NOT write this myself
+        Array.from(form.elements).forEach(element => {
+          items.push(element.value);
+        });
+        
+        for(i = 0; i < items.length-1; i++){
+          if (items[i].length == 0){
+            canSubmit = false;
+          }
+        }
+        console.log(canSubmit);
+        console.log(items);
+        document.getElementById("manualTeamSubmit").disabled = !canSubmit;
+
+      }
+    </script>
     {% include './common/bootstrap_js.html' %}
   </body>
 </html>

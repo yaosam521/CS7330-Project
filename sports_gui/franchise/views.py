@@ -144,9 +144,12 @@ def resultsEntered(request):
     print(teamName1, teamScore1, teamName2, teamScore2)
     return render(request, 'resultsEntered/resultsEntered.html', params)
 
+'''
+@Deepanshu Can you pass in the length of the list that contains all of the pairs?
+'''
 def manual_insert_teams(request):
-    template = loader.get_template('manual_insert_teams.html')
-    return HttpResponse(template.render())
+    params = {'pairs': [("A","B"),("A","B"),("A","B"),("A","B")],'length':len([("A","B"),("A","B"),("A","B"),("A","B")])}
+    return render(request, 'manual_insert_teams.html', params)
 
 def insert_games(request):
     template = loader.get_template('insert_games.html')
