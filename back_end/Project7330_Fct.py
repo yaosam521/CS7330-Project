@@ -43,11 +43,13 @@ def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100
 		if insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCall=True) == True:
 			print("insert_league: League succ insertion")
 			___res= "League succ insertion"
+			return ___res
 			#return True
 		else:
 			Leagues.delete_one({"_id":LeagueId.inserted_id})
 			print("insert_league: Season problem, insertion aborted")
 			___res= "Season problem"
+			return ___res
 			#return True
 		
 	except pymongo.errors.DuplicateKeyError:												# hundling the DuplicateKeyError exception
@@ -121,7 +123,7 @@ def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCal
 			___res="insert_season: Seasons Conflict Detected "+"already inserted Season between : "+conflict["sDate"]+" -- "+conflict["eDate"]
 			return ___res
 
-def insert_games_info(lName, sDate, eDate, autoInsertion, inGames={}, maxPerDay=100):
+def insert_games_info(lName, sDate, eDate, autoInsertion, inGames={}, maxPerDay=100):#DONE
 	Season_dict=Seasons.find_one({"lName":lName, "sDate":sDate, "eDate":eDate})
 	League=Leagues.find_one({"lName":lName})
 	insert_games(Season_dict, autoInsertion, inGames=inGames, CompetingTeams=League["Teams"], maxPerDay=maxPerDay)
@@ -277,16 +279,16 @@ def move_team(team, fromLeague, toLeague, CurrentDate):	#Done										# paramet
 	#return True
 
 #-----------------------------------------------------Added insertion------------------------------------------------------------------------------
-def init_date():
+def init_date():#DONE
 	if Dates.find_one()==None:
 		Dates.insert_one({"Current":"2022/01/01"})
 
-def get_date():
+def get_date():#DONE
 	dateDict=Dates.find_one()
 	print(dateDict["Current"])
 	return dateDict["Current"]
 
-def change_date(newDate):
+def change_date(newDate):#DONE
 	dateDict=Dates.find_one()
 	if dateDict["Current"] > newDate :
 		___res="you can't go backwards"
@@ -299,14 +301,17 @@ def change_date(newDate):
 
 	Dates.update_one({"_id":dateDict["_id"]}, {dateDict["Current"]: newDate})
 
-def get_season_sets(lName, nGames):
-	league=Leagues.find_one({"lName":lName})
-	if league==None:
-		___res="get_season_sets: no such league"
-		print(___res)
-		return ___res
+def get_season_sets(nGames, lName="", teams=[]):#DONE
+	if not teams == []:
+		CompetingTeams=teams
+	else:
+		league=Leagues.find_one({"lName":lName})
+		if league==None:
+			print("get_season_sets: no such league")
+			return None
 
-	CompetingTeams=league["Teams"]
+		CompetingTeams=league["Teams"]
+
 	games_sets=[]	
 	for gNumber in range(0,nGames):								
 		for i in range(0,len(CompetingTeams)):
@@ -322,7 +327,7 @@ def get_season_sets(lName, nGames):
 
 #----------------------------------------------------------Querys----------------------------------------------------------------------------------
 
-def season_info_query(league, sDate, eDate):	#Done												# parameters should be str dayFormat= "%Y-%m-%d"
+def season_info_query(league, sDate, eDate):	#USED												# parameters should be str dayFormat= "%Y-%m-%d"
 	season=Seasons.find_one({"lName":league, "sDate":sDate, "eDate":eDate})
 	if (season == None):
 		print("season_query: No such season")
@@ -335,7 +340,7 @@ def season_info_query(league, sDate, eDate):	#Done												# parameters shoul
 	return sortedStanding	
 	#return True
 
-def game_info_query(team1, team2):																	# team1/2 should be str
+def game_info_query(team1, team2):			#DONE														# team1/2 should be str
 	gQueryOrgnizer={}
 	matchCondition={"$match": {"Record."+team1:{"$exists": 1}, "Record."+team2:{"$exists": 1}}}
 	groupCondition={"$group": { "_id": "$SeasonId", "Games":{"$addToSet": {"game":(str('$'+"Record."+team1),str('$'+"Record."+team2),"$Date")}} }}
@@ -355,7 +360,7 @@ def game_info_query(team1, team2):																	# team1/2 should be str
 		return gQueryOrgnizer
 		#return True
 			
-def team_info_query(tName):
+def team_info_query(tName): #DONE
 	team=Teams.find_one({"tName":tName})
 	if team==None:
 		print("team_info_query: No such record")
@@ -368,7 +373,7 @@ def team_info_query(tName):
 		return team
 		#return True
 
-def team_records_query(tName):																	# tName should be str
+def team_records_query(tName):		#PENDING															# tName should be str
 	tQueryOrgnizer={}
 	matchCondition={"$match": {"Record."+tName:{"$ne": None}}}
 	groupCondition={"$group": { "_id": "$SeasonId", "Games":{"$addToSet": "$Record"}, "count": {"$sum": {}} }}
@@ -406,7 +411,7 @@ def team_records_query(tName):																	# tName should be str
 		#return True
 
 
-def league_info_query(lName):																	# lName should be str
+def league_info_query(lName):		#DONE															# lName should be str
 	league=Leagues.find_one({"lName":lName})
 	if league==None:
 		print("league_info_query: No such record")
@@ -420,7 +425,7 @@ def league_info_query(lName):																	# lName should be str
 		return league
 		#return True
 
-def league_champians_query(lName):																# lName should be str
+def league_champians_query(lName):		#PENDING														# lName should be str
 	seasonsRes=Seasons.find({"lName":lName},{"sDate":1, "eDate":1, "Standing":1})
 	noRes=1
 	for season in seasonsRes:
@@ -441,7 +446,7 @@ def league_champians_query(lName):																# lName should be str
 		return season
 		#return True 
 	
-def RQ_longest_path(start, sequence):
+def RQ_longest_path(start, sequence):#USED
 	localSeq=sequence.copy()
 	updated=0
 	if start in graph.keys():																	# we still have edges to test
@@ -466,7 +471,7 @@ def RQ_longest_path(start, sequence):
 																				 
 	
 
-def rating_query(league, sDate, eDate):
+def rating_query(league, sDate, eDate):#USED
 	season=Seasons.find_one({"lName":league, "sDate":sDate, "eDate":eDate})
 	if season==None:
 		print("rating_query: No Such Season")
