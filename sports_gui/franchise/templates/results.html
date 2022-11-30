@@ -46,7 +46,7 @@
           team2 = document.forms["gameResults"]["team2"].value;
           team2Score = document.forms["gameResults"]["team2Score"].value;
           forceUpdate = document.forms["gameResults"]["forceUpdate"].value;
-          items.push(team1,team1Score,team2,team2Score,datePlayed,forceUpdate);
+          items.push(team1,team1Score,team2,team2Score,forceUpdate);
           for(i = 0; i < items.length; i++){
             if (items[i].length == 0 || forceUpdate == -1){
               canSubmit = false;
