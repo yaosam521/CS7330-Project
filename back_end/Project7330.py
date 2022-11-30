@@ -32,7 +32,7 @@ for team in inTeams:
 	insert_team(team)
 insert_season(inSeasons, autoInsertion, maxPerDay= 3, inGames=inGames)
 insert_season(inSeasonsManu, False, maxPerDay= 3)
-insert_game_res("E", -12, "D", 0, "2020-01-01", t1Rating=-34211.4, replace=True)
+insert_game_res("E", -12, "D", 0, t1Rating=-34211.4, replace=True)
 
 move_team("A", "test League", "test League2", "2020-07-23")
 season_info_query("test League", "2020-01-01", "2020-06-20")
@@ -46,3 +46,4 @@ team_records_query("E")
 league_info_query("test League")
 league_champians_query("test League2")
 rating_query("test League","2020-01-01","2020-06-20")
+get_season_sets("test League", 2)

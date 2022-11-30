@@ -21,8 +21,7 @@ Games=mydb["Games"]																			# create a collection named Games
 Dates=mydb["Dates"]	
 
 graph=defaultdict(list)
-# what i have to do
-# function to return pairs for sam manual games
+
 def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100, checkForTeams=False):# Done 
 	# Start working on Leagues collection---------------------------------------------------------------------------------------------------
 	if checkForTeams:
@@ -196,7 +195,9 @@ def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, ma
 				___res="No Solution -- add more days or increase the maxPerDay req"
 				return ___res
 
-def insert_game_res(team1, score1, team2, score2, date, replace=False, t1Rating=None, t2Rating=None): # team info should be str and score/rating should be int "GUI" dateFormat= "%Y-%m-%d"
+def insert_game_res(team1, score1, team2, score2, replace=False, t1Rating=None, t2Rating=None): # team info should be str and score/rating should be int "GUI" dateFormat= "%Y-%m-%d"
+	dateDict=Dates.find_one()
+	date= dateDict["Current"]
 	game= Games.find_one({"Record."+team1: { "$exists": True }, "Record."+team2: { "$exists": True }, "Date":date})
 	if game==None:
 		print("insert_game_res: no such game")
@@ -292,6 +293,18 @@ def change_date(newDate):
 			return ___res
 
 	Dates.update_one({"_id":dateDict["_id"]}, {dateDict["Current"]: newDate})
+
+def get_season_sets(lName, nGames):
+	league=Leagues.find_one({"lName":lName})
+	CompetingTeams=league["Teams"]
+	games_sets=[]	
+	for gNumber in range(0,nGames):								
+		for i in range(0,len(CompetingTeams)):
+			for j in range(i+1,len(CompetingTeams)):
+				games_sets.append((CompetingTeams[i],CompetingTeams[j]))
+	
+	print(games_sets)
+
 
 
 #-----------------------------------------------------Added insertion------------------------------------------------------------------------------
