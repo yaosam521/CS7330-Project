@@ -85,6 +85,13 @@ def sq_result(request):
     params = {'result':season_info_query(name, sdate, edate)}
     return render(request, 'queryResults/sq_result.html', params)
 
+def rq_result(request):
+    name = request.GET.get('lName')
+    sdate = request.GET.get('sDate')
+    edate = request.GET.get('eDate')
+    params = {'result':rating_query(name,sdate,edate)}
+    return render(request, 'queryResults/rq_result.html', params)
+
 def resultsEntered(request):
     teamName1 = request.GET.get('team1', 'default')
     teamScore1 = request.GET.get('team1Score', 'default')

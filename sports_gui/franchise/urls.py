@@ -24,5 +24,6 @@ urlpatterns = [
     path('teamEntry/', views.teamEntry, name = 'teamEntry'),
     path('lq_result/', views.lq_result, name = 'lq_result'),
     path('gq_result/', views.gq_result, name = 'gq_result'),
-    path('sq_result/', views.sq_result, name = 'sq_result')
+    path('sq_result/', views.sq_result, name = 'sq_result'),
+    path('rq_result/', views.rq_result, name = 'rq_result')
 ]
