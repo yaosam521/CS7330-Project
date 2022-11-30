@@ -23,7 +23,7 @@ Dates=mydb["Dates"]
 graph=defaultdict(list)
 # what i have to do
 # function to return pairs for sam manual games, fix insert games to work alone, merge the two insert season and league together
-def insert_league(inLeagues, checkForTeams=False):# Done
+def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100, checkForTeams=False):# Done 
 	# Start working on Leagues collection---------------------------------------------------------------------------------------------------
 	if checkForTeams:
 		for team in inLeagues["Teams"]:											
@@ -40,10 +40,17 @@ def insert_league(inLeagues, checkForTeams=False):# Done
 			#return False																	# HINT: this check can be added to the previous loop to know which team is assigned
 
 	try:
-		Leagues.insert_one(inLeagues)	
-		print("insert_league: League succ insertion")
-		___res= "League succ insertion"
-		#return True
+		LeagueId=Leagues.insert_one(inLeagues)	
+		if insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCall=True) == True:
+			print("insert_league: League succ insertion")
+			___res= "League succ insertion"
+			#return True
+		else:
+			Leagues.delete_one({"_id":LeagueId.inserted_id})
+			print("insert_league: Season problem, insertion aborted")
+			___res= "Season problem"
+			#return True
+		
 	except pymongo.errors.DuplicateKeyError:												# hundling the DuplicateKeyError exception
 		print("insert_league: DuplicateKeyError handled Succecefully")
 		___res="Duplicate League Name detected"
@@ -65,15 +72,17 @@ def insert_team(inTeams):# Done
 		return ___res
 		#return False
 
-def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100):# until insert games is done
+def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCall=False):# until insert games is done
 	# Start working on Seasons collection---------------------------------------------------------------------------------------------------
 	leagueInfo=Leagues.find_one({"lName":inSeasons["lName"]})
 
 	if leagueInfo == None:																	# check that lName is correct
 		print("insert_season: no such league")
-		___res="no such league"
-		return ___res
-		#return False
+		if inTeamCall== True:
+			return False
+		else:
+			___res="no such league"
+			return ___res
 
 	c1, c2, c3=[{"$gte": inSeasons["sDate"]},{"$gte": inSeasons["eDate"]},{"$lt": inSeasons["sDate"]}] # Check for conflicts
 	conflict= Seasons.find_one({"lName": inSeasons["lName"], "$nor": [{"$or": [{"$and":[{"sDate":c1},{"sDate":c2}]},{"$and":[{"sDate":c3},{"eDate":c3}]}]}]})
@@ -90,21 +99,28 @@ def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100):# until i
 		SeasonId=Seasons.insert_one(inSeasons)											# insert season and retreive the id to rollback if prob in games										
 		if insert_games(Seasons.find_one({"_id":SeasonId.inserted_id}), autoInsertion, inGames, leagueInfo["Teams"], maxPerDay, inSeasonCall=True) == True:
 			print("insert_season: Season succ insertion")
-			___res= "Season succ insertion"
-			return ___res
-			#return True
+			if inTeamCall== True:
+				return True
+			else:
+				___res= "Season succ insertion"
+				return ___res
+			
 		else: 																			# if games prob then remove the inserted season.
-			Seasons.delete_one({"SeasonId":Season_dict["_id"]})
-			___res="games problem"
-			return ___res
-			#return False
+			Seasons.delete_one({"_id":SeasonId.inserted_id})
+			if inTeamCall== True:
+				return True
+			else:
+				___res="games problem"
+				return ___res
 	
 	else:
 		print("insert_season: Seasons Conflict Detected", end= ' ')
 		print("already inserted Season between : %s -- %s " %(conflict["sDate"], conflict["eDate"]))
-		___res="insert_season: Seasons Conflict Detected "+"already inserted Season between : "+conflict["sDate"]+" -- "+conflict["eDate"]
-		return ___res
-		#return False
+		if inTeamCall== True:
+			return False
+		else: 
+			___res="insert_season: Seasons Conflict Detected "+"already inserted Season between : "+conflict["sDate"]+" -- "+conflict["eDate"]
+			return ___res
 
 def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, maxPerDay=100, inSeasonCall=False): 	# try to rearange your parameters/ remove the default for some
 	# Start working on Games collection-----------------------------------------------------------------------------------------------------
@@ -114,9 +130,10 @@ def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, ma
 			print("insert_game: user can't go to further then this date: %s without games insertion ;p" %(Season_dict["sDate"]))
 			if inSeasonCall== True:
 				return True
-		else:
-			___res="user can't go to further then this date:"+Season_dict["sDate"]+"without games insertion ;p"
-			return ___res
+			else:
+				___res="no game inserted"+"user can't go to further then this date:"+Season_dict["sDate"]+"without games insertion"
+				return ___res
+
 		for game in inGames:
 			game.update({"SeasonId":Season_dict["_id"]})
 		Games.insert_many(inGames)																# GUI responsibility to maintain the consistency
@@ -276,7 +293,7 @@ def change_date(newDate):
 
 #----------------------------------------------------------Querys----------------------------------------------------------------------------------
 
-def season_query(league, sDate, eDate):	#Done													# parameters should be str dayFormat= "%Y-%m-%d"
+def season_info_query(league, sDate, eDate):	#Done												# parameters should be str dayFormat= "%Y-%m-%d"
 	season=Seasons.find_one({"lName":league, "sDate":sDate, "eDate":eDate})
 	if (season == None):
 		print("season_query: No such season")
@@ -289,7 +306,7 @@ def season_query(league, sDate, eDate):	#Done													# parameters should be
 	return sortedStanding	
 	#return True
 
-def game_query(team1, team2):																	# team1/2 should be str
+def game_info_query(team1, team2):																	# team1/2 should be str
 	gQueryOrgnizer={}
 	matchCondition={"$match": {"Record."+team1:{"$exists": 1}, "Record."+team2:{"$exists": 1}}}
 	groupCondition={"$group": { "_id": "$SeasonId", "Games":{"$addToSet": {"game":(str('$'+"Record."+team1),str('$'+"Record."+team2),"$Date")}} }}
