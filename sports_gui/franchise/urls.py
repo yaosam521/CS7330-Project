@@ -7,6 +7,7 @@ urlpatterns = [
     path('league/', views.league, name = 'league'),
     path('date/', views.date, name = 'date'),
     path('season/', views.season, name = 'season'),
+    path('seasonCreated/', views.seasonCreated, name = 'seasonCreated'),
     path('league_query/',views.league_query, name='league_query'),
     path('team_query/',views.team_query, name='team_query'),
     path('game_query/',views.game_query, name='game_query'),

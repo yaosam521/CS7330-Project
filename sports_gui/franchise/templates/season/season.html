@@ -11,7 +11,7 @@
     {% include '../common/navbar.html' %}
     <div class="container">
       <h1>Create a Season</h1>
-      <form id="newSeason">
+      <form action='/seasonCreated' method='get' id="newSeason">
         <label for="lName">League Name</label>
         <input type="text" id="lName" name="lName" oninput="checkForm()">
         <br>

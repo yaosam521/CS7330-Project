@@ -56,6 +56,26 @@ def season(request):
     template = loader.get_template('season/season.html')
     return HttpResponse(template.render())
 
+def seasonCreated(request):
+    lname = request.GET.get('lName')
+    sdate = request.GET.get('sDate')
+    edate = request.GET.get('eDate')
+    ai = request.GET.get('gameSchedule')
+    if ai =="1" :
+        autoInsertion=True
+    else:
+        autoInsertion= False
+    gnum = request.GET.get('gNumber')
+    max = request.GET.get('maxGames')
+    win = request.GET.get('wins')
+    loss = request.GET.get('loss')
+    draw = request.GET.get('draw')
+    inSeasons={"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": int(gnum), "sRules": {"win":int(win), "draw":int(draw), "lose":int(loss)}}
+    params = {'result': insert_season(inSeasons,autoInsertion,maxPerDay=int(max),inGames={})}
+
+    return render(request, 'season/seasonCreated.html', params)
+
+
 def league_query(request):
     template = loader.get_template('queries/league_query.html')
     return HttpResponse(template.render())
@@ -116,10 +136,10 @@ def rq_result(request):
     return render(request, 'queryResults/rq_result.html', params)
 
 def resultsEntered(request):
-    teamName1 = request.GET.get('team1', 'default')
-    teamScore1 = request.GET.get('team1Score', 'default')
-    teamName2 = request.GET.get('team2', 'default')
-    teamScore2 = request.GET.get('team2Score', 'default')
+    teamName1 = request.GET.get('team1')
+    teamScore1 = request.GET.get('team1Score')
+    teamName2 = request.GET.get('team2')
+    teamScore2 = request.GET.get('team2Score')
     params = {'team1':teamName1, 'team1Score':teamScore1, 'team2':teamName2, 'team2Score':teamScore2}
     print(teamName1, teamScore1, teamName2, teamScore2)
     return render(request, 'resultsEntered/resultsEntered.html', params)
