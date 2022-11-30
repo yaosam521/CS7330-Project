@@ -22,7 +22,7 @@ Dates=mydb["Dates"]
 
 graph=defaultdict(list)
 # what i have to do
-# function to return pairs for sam manual games, fix insert games to work alone, merge the two insert season and league together
+# function to return pairs for sam manual games
 def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100, checkForTeams=False):# Done 
 	# Start working on Leagues collection---------------------------------------------------------------------------------------------------
 	if checkForTeams:
@@ -121,6 +121,11 @@ def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCal
 		else: 
 			___res="insert_season: Seasons Conflict Detected "+"already inserted Season between : "+conflict["sDate"]+" -- "+conflict["eDate"]
 			return ___res
+
+def insert_games_info(lName, sDate, eDate, autoInsertion, inGames={}, maxPerDay=100):
+	Season_dict=Seasons.find_one({"lName":lName, "sDate":sDate, "eDate":eDate})
+	League=Leagues.find_one({"lName":lName})
+	insert_games(Season_dict, autoInsertion, inGames=inGames, CompetingTeams=League["Teams"], maxPerDay=maxPerDay)
 
 def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, maxPerDay=100, inSeasonCall=False): 	# try to rearange your parameters/ remove the default for some
 	# Start working on Games collection-----------------------------------------------------------------------------------------------------
