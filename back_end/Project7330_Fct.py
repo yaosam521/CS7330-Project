@@ -294,12 +294,17 @@ def change_date(newDate):#DONE
 		___res="you can't go backwards"
 		print(___res)
 		return ___res
+
 	for noGSeason in Seasons.find({"gInserted": False}):
 		if noGSeason["sDate"] < newDate:
-			___res="conflict detected please insert games results for League: "+noGSeason["lName"]+" with season in: "+noGSeason["sDate"]+"---"+noGSeason[""]
+			___res="conflict detected please insert games results for League: "+noGSeason["lName"]+" with season in: "+noGSeason["sDate"]+"---"+noGSeason["eDate"]
+			print(___res)
 			return ___res
 
-	Dates.update_one({"_id":dateDict["_id"]}, {dateDict["Current"]: newDate})
+	Dates.update_one({"_id":dateDict["_id"]}, { "$set": {"Current": newDate}})
+	___res="Date changed Succecefully"
+	print(___res)
+	return ___res
 
 def get_season_sets(nGames, lName="", teams=[]):#DONE
 	if not teams == []:
