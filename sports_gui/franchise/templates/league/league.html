@@ -94,6 +94,7 @@
                 canSubmit = false;
               }
             }
+            console.log(canSubmit);
             document.getElementById("createTeamButton").disabled = !canSubmit;
           }
         </script>
@@ -101,7 +102,7 @@
         <br>
         <br>
         <h1>Enter a new Team Here!</h1>
-        <form name="teamForm">
+        <form action='/teamResult' method='get' id="teamForm">
           <label for="tName">Team Name</label>
           <input type="text" id="tName" name="tName" oninput="checkTeamForm()">
           <br>

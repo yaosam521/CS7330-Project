@@ -16,14 +16,37 @@ def league(request):
     return HttpResponse(template.render())
 
 def leagueResult(request):
-    abc = request.GET.get('lName', 'cName', 'SSN', 'Teams')
-    # lname = request.GET.get('lName', 'default')
-    # Cname = request.GET.get('cName', 'default')
-    # CSSN = request.GET.get('SSN', 'default')
-    # teams = request.GET.get('Teams', 'default')
-    # params = {'lName':lname, 'CName': Cname, 'SSN': CSSN, 'teams' : teams}
-    params = {'result': insert_league(abc)}     # dispute here.
+    lname = request.GET.get('lName')
+    Cname = request.GET.get('cName')
+    CSSN = request.GET.get('SSN')
+    teams = request.GET.get('Teams')
+    teams_arr = teams.split(',')
+    inLeagues = {"lName": lname,"Comissioner": {"cName": Cname, "SSN": CSSN}, "Teams":teams_arr}
+    sdate = request.GET.get('startDate')
+    edate = request.GET.get('endDate')
+    gnum = request.GET.get('gNumber')
+    win = request.GET.get('wins')
+    draw = request.GET.get('draw')
+    loss = request.GET.get('loss')
+    inSeasons = {"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": gnum, "sRules": {"win":win, "draw": draw, "lose":loss}}
+    ai = request.GET.get('gameSchedule')
+    if ai ==1 :
+        autoInsertion=True
+    else:
+        autoInsertion= False
+    params = {'result': insert_league(inLeagues,inSeasons,autoInsertion)}
     return render(request, 'league/leagueResult.html', params)
+
+
+def teamResult(request):
+    tname = request.GET.get('tName')
+    city = request.GET.get('City')
+    state = request.GET.get('State')
+    field = request.GET.get('Field')
+    rating = request.GET.get('Rating')
+    inTeams={"tName":tname,"City":city, "State":state, "Field":field, "Rating":rating}
+    params = {'result': insert_team(inTeams)}
+    return render(request, 'league/teamResult.html', params)
 
 def date(request):
     template = loader.get_template('date/date.html')
@@ -61,11 +84,11 @@ def move_teams(request):
     template = loader.get_template('move_teams.html')
     return HttpResponse(template.render())
 
-def teamEntry(request):
+def tq_result(request):
     tName = request.GET.get('teamQuery', 'default')
     print(tName)
     params = {'result': team_info_query(tName)}
-    return render(request, 'queryResults/teamEntry.html', params)
+    return render(request, 'queryResults/tq_result.html', params)
 
 def lq_result(request):
     lq = request.GET.get('leagueQuery')
