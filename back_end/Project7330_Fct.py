@@ -470,8 +470,13 @@ def rating_query(league, sDate, eDate):
 		if len(sequence) > len(finalSequence):
 			finalSequence=sequence
 
-	print("rating_query: ",finalSequence)
-	return finalSequence
+	if finalSequence == []:
+		___res="No sequence has been found"
+		print(___res)
+		return ___res
+	else:
+		print("rating_query: ",finalSequence)
+		return finalSequence
 	#return True
 
 
