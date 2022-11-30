@@ -434,6 +434,7 @@ def league_info_query(lName):		#DONE															# lName should be str
 def league_champians_query(lName):		#PENDING														# lName should be str
 	seasonsRes=Seasons.find({"lName":lName},{"sDate":1, "eDate":1, "Standing":1})
 	noRes=1
+	___res=[]
 	for season in seasonsRes:
 		if noRes==1: noRes=0
 		season["_id"]=season["sDate"]+"---"+season["eDate"]										# replace _id with appropriate date
@@ -442,14 +443,16 @@ def league_champians_query(lName):		#PENDING														# lName should be str
 		champions= [{ key: value} for key, value in season["Standing"].items() if value == max(season["Standing"].values())]
 		season.pop("Standing")
 		season["Champions"]=champions															# insert Champians record to dict
-		print("league_champians_query: ",season)
+		#print("league_champians_query: ",season)
+		___res.append(season)
 	if noRes==1:
 		print("league_champians_query: no such record")
 		___res="no such record"
 		return ___res
 		#return False
 	else:
-		return season
+		print("league_champians_query: ",___res)
+		return ___res
 		#return True 
 	
 def RQ_longest_path(start, sequence):#USED

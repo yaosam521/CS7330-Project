@@ -159,6 +159,7 @@ def lq_result(request):
 def gq_result(request):
     t1 = request.GET.get('team1')
     t2 = request.GET.get('team2')
+    print(t1, t2)
     params = {'result':game_info_query(t1,t2)}
     return render(request, 'queryResults/gq_result.html', params)
     
@@ -177,30 +178,52 @@ def rq_result(request):
     return render(request, 'queryResults/rq_result.html', params)
 
 def resultsEntered(request):
-    teamName1 = request.GET.get('team1')
-    teamScore1 = request.GET.get('team1Score')
-    teamName2 = request.GET.get('team2')
-    teamScore2 = request.GET.get('team2Score')
-    params = {'team1':teamName1, 'team1Score':teamScore1, 'team2':teamName2, 'team2Score':teamScore2}
-    print(teamName1, teamScore1, teamName2, teamScore2)
+    t1 = request.GET.get('team1')
+    t1s = request.GET.get('team1Score')
+    t2 = request.GET.get('team2')
+    t2s = request.GET.get('team2Score')
+    t1rating = request.GET.get('team1Rating')
+    t2rating = request.GET.get('team2Rating')
+    re = request.GET.get('forceUpdate')
+    if re == "1":
+        replace = True
+    else:
+        replace = False
+        
+    if t1rating == "":
+        t1rating = None
+    else:
+        t1rating = int(t1rating)
+    if t2rating == "":
+        t2rating = None
+    else:
+        t2rating = int(t2rating)
+    params = {'result':insert_game_res(t1, int(t1s), t2, int(t2s), replace=replace, t1Rating=t1rating, t2Rating=t2rating)}
     return render(request, 'resultsEntered/resultsEntered.html', params)
-
-'''
-@Deepanshu Can you pass in the length of the list that contains all of the pairs?
-'''
 
 
 def lq_champ_result(request):
     lName = request.GET.get('leagueQuery')
-    params = {'champion': league_champians_query(lName)}
+    res=league_champians_query(lName)
+    params = {'champion': res}
     return render(request, "queryResults/lq_champ_result.html", params)
 
 def tq_records_result(request):
-    return render(request, "queryResults/tq_records_result.html")
+    tname = request.GET.get('teamQuery')
+    params = {'records': team_records_query(tname)}
+    return render(request, "queryResults/tq_records_result.html", params)
 
 def insert_games(request):
     template = loader.get_template('insert_games.html')
     return HttpResponse(template.render())
+
+def game_result(request):
+    lName = request.GET.get('lName')
+    sDate = request.GET.get('sDate')
+    eDate = request.GET.get('eDate')
+    max = request.GET.get('#')
+    params = {'result':insert_games_info(lName, sDate, eDate, True, inGames={}, maxPerDay=100)}
+    return render(request, 'game_result.html', params)
 
 def move_teams_2(request):
     team = request.GET.get('team')

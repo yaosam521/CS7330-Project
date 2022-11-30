@@ -23,6 +23,7 @@ urlpatterns = [
     path('mit_2/', views.mit_2, name = 'mit_2'),
     path('manual_insert_teams/',views.manual_insert_teams, name='manual_insert_teams'),
     path('insert_games/', views.insert_games, name = 'insert_games'),
+    path('game_result/', views.game_result, name = 'game_result'),
     path('move_teams_2/', views.move_teams_2, name = 'move_teams_2'),
     #query URLS
     path('tq_result/', views.tq_result, name = 'tq_result'),
