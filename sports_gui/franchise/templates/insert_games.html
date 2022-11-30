@@ -11,22 +11,52 @@
     {% include './common/navbar.html' %}
     <div class="container">
         <h1>Insert Games</h1>
-        <form action="">
+        <form action="" id="insertGames">
             <label for="lName">League Name</label>
-            <input type="text" name="lName" id="lName">
+            <input type="text" name="lName" id="lName" oninput="checkForm()">
 
             <label for="sDate">Start Date</label>
-            <input type="date" name="sDate" id="sDate">
+            <input type="date" name="sDate" id="sDate" oninput="checkForm()">
 
             <label for="eDate">End Date</label>
-            <input type="date" name="eDate" id="eDate">
+            <input type="date" name="eDate" id="eDate" oninput="checkForm()">
 
-            <label for="autoInsert">Automatically Insert Games?</label>
-            <input type="checkbox" name="autoInsert" id="autoInsert">
+            <label for="autoInsert">Auto Insert?</label>
+            <select name="autoInsert" id="autoInsert" oninput="checkForm()">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+            <button type="submit" class="btn btn-primary" id="autoSubmit" disabled>Auto Insert Games</button>
 
-            <button type="submit" class="btn btn-primary">Insert Games</button>
+            <button type="submit" class="btn btn-primary" id="manualSubmit" disabled>Manual Insert Games</button>
         </form>
     </div>
+    <script>
+        //TODO - FINISH THIS FUNCTION
+        function checkForm(){
+          canSubmit = true;
+          items = [];
+          lName = document.forms["insertGames"]["lName"].value;
+          startDate = document.forms["insertGames"]["sDate"].value;
+          endDate = document.forms["insertGames"]["eDate"].value;
+          autoInsert = document.forms["insertGames"]["autoInsert"].value;
+          
+          items.push(lName, startDate,endDate,autoInsert);
+          for(i=0; i < items.length; i++){
+            if (items[i].length == 0 || items[i] == 0){
+              canSubmit = false;
+            }
+          }
+          console.log(autoInsert);
+          if(autoInsert == 1){
+            document.getElementById("autoSubmit").disabled = true;
+            document.getElementById("manualSubmit").disabled = false;
+          }else{
+            document.getElementById("autoSubmit").disabled = false;
+            document.getElementById("manualSubmit").disabled = true;
+          }
+        }
+    </script>
     {% include './common/bootstrap_js.html' %}
   </body>
 </html>

@@ -26,13 +26,18 @@ init_date()
 	
 
 
-insert_league(inLeagues2)
+#insert_league(inLeagues2)
+insert_league(inLeagues, inSeasons, autoInsertion)
 for team in inTeams:
 	insert_team(team)
 insert_season(inSeasons, autoInsertion, maxPerDay= 3, inGames=inGames)
 insert_season(inSeasonsManu, False, maxPerDay= 3)
 insert_game_res("E", -12, "D", 0, "2020-01-01", t1Rating=-34211.4, replace=True)
+<<<<<<< HEAD
 move_team("A", "test League2", "test League", "2020-07-23")
+=======
+move_team("A", "test League", "test League2", "2020-07-23")
+>>>>>>> b28b2fe2028aafc5ef1fc1d3c31a9afb8283aa01
 season_info_query("test League", "2020-01-01", "2020-06-20")
 
 game_info_query("c", "B")
