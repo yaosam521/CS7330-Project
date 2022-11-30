@@ -17,12 +17,14 @@ urlpatterns = [
     
     path('resultsEntered/', views.resultsEntered, name = 'resultsEntered'),
     path('leagueResult', views.leagueResult, name = 'leagueResult'),
+    path('teamResult/', views.teamResult, name = 'teamResult'),
     path('manual_insert_teams/',views.manual_insert_teams, name='manual_insert_teams'),
     path('insert_games/', views.insert_games, name = 'insert_games'),
     path('move_teams_2/', views.move_teams_2, name = 'move_teams_2'),
     #query URLS
-    path('teamEntry/', views.teamEntry, name = 'teamEntry'),
+    path('tq_result/', views.tq_result, name = 'tq_result'),
     path('lq_result/', views.lq_result, name = 'lq_result'),
     path('gq_result/', views.gq_result, name = 'gq_result'),
-    path('sq_result/', views.sq_result, name = 'sq_result')
+    path('sq_result/', views.sq_result, name = 'sq_result'),
+    path('rq_result/', views.rq_result, name = 'rq_result')
 ]

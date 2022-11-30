@@ -9,10 +9,16 @@
   </head>
   <body>
     {% include '../common/navbar.html' %}
+    <!-- Everything you need to write goes here! -->
     <div class="container">
-        <h1>Query Results</h1>
-            {{result}}<br>
-            {% if result.\ %}
+        <h1>Ratings</h1>
+        {% if result == null %}
+            <p>{{result}}</p>
+        {% else %}
+            <p>
+              {{result}}
+            </p>    
+        {%endif%}
     </div>
     {% include '../common/bootstrap_js.html' %}
   </body>
