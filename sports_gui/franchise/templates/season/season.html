@@ -43,54 +43,13 @@
         <br>
         <button type="submit" class="btn btn-primary" id="autoSubmit" disabled>Create Season</button>
         <br>
-      </form>
-      <br>
-      <h1>Or Manually Insert Games</h1>
-      <form action="/manual_insert_teams" id="manualSeason">
-        <label for="lName">League Name</label>
-        <input type="text" id="lName" name="lName" oninput="checkManual()">
         <br>
-        <label for="sDate">Start Date</label>
-        <input type="date" id="sDate" name="sDate" oninput="checkManual()">
-        <br>
-        <label for="eDate">End Date</label>
-        <input type="date" id="eDate" name="eDate" oninput="checkManual()">
-        <br>
-        <label for="gNumber">Number of Games</label>
-        <input type="number" id="gNumber" name="gNumber" min="0" oninput="checkManual()">
-        <br>
-        <h3>Game Rules</h3>
-        <label for="wins">Wins</label>
-        <input type="number" id="wins" name="wins" min="0" oninput="checkManual()">
-        <label for="loss">Losses</label>
-        <input type="number" id="loss" name="loss" min="0" oninput="checkManual()">
-        <label for="wins">draw</label>
-        <input type="number" id="draw" name="draw" min="0" oninput="checkManual()">
-        <br>
-        <button type="submit" class="btn btn-secondary" id="manualSubmit" disabled>Schedule Teams</button>
+        <h1>Or Manually Insert Games</h1>
+        <button type="submit" class="btn btn-primary" id="manualSubmit" formaction="/manual_insert_teams" disabled>Schedule Teams</button>
       </form>
     </div>
 
     <script>
-      function checkManual(){
-        canSubmit = true;
-        items=[];
-        lName = document.forms["manualSeason"]["lName"].value;
-        sDate = document.forms["manualSeason"]["sDate"].value;
-        eDate = document.forms["manualSeason"]["eDate"].value;
-        gNumber = document.forms["manualSeason"]["gNumber"].value;
-        wins = document.forms["manualSeason"]["wins"].value;
-        loss = document.forms["manualSeason"]["loss"].value;
-        draw = document.forms["manualSeason"]["draw"].value;
-        items.push(lName,sDate,eDate,gNumber,wins,loss,draw);
-        for(i = 0; i < items.length;i++){
-          if (items[i].length == 0){
-            canSubmit = false;
-          }
-        }
-        document.getElementById("manualSubmit").disabled = !canSubmit;
-      }
-
       function checkForm(){
         canSubmit = true;
         items = [];
@@ -110,6 +69,7 @@
           }
         }
         document.getElementById("autoSubmit").disabled = !canSubmit;
+        document.getElementById("manualSubmit").disabled = !canSubmit;
       }
     </script>
 

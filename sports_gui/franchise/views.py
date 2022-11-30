@@ -8,6 +8,7 @@ from back_end.Project7330_Fct import *
 
 
 def index(request):
+    init_date()
     template = loader.get_template('home/index.html')
     return HttpResponse(template.render())
 
@@ -173,6 +174,12 @@ def resultsEntered(request):
 @Deepanshu Can you pass in the length of the list that contains all of the pairs?
 '''
 
+
+def lq_champ_result(request):
+    return render(request, "queryResults/lq_champ_result.html")
+
+def tq_records_result(request):
+    return render(request, "queryResults/tq_records_result.html")
 
 def insert_games(request):
     template = loader.get_template('insert_games.html')

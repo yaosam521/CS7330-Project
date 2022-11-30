@@ -10,13 +10,8 @@
   <body>
     {% include '../common/navbar.html' %}
     <div class="container">
-        <h1>League Query</h1>
-        <form action='/lq_result' method='get'>
-            <label for="leagueQuery">Enter the League Name</label>
-            <input type="text" id="leagueQuery" name="leagueQuery">
-            <button type="submit" class="btn btn-primary" id="findInfo">Find Info</button>
-            <button type="submit" class="btn btn-primary" id="findChamp" formaction="/lq_champ_result">Find Champion</button>
-        </form>
+        <h1>League Champs</h1>
+        {# champion #}
     </div>
     {% include '../common/bootstrap_js.html' %}
   </body>

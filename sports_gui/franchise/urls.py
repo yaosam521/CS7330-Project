@@ -27,5 +27,7 @@ urlpatterns = [
     path('lq_result/', views.lq_result, name = 'lq_result'),
     path('gq_result/', views.gq_result, name = 'gq_result'),
     path('sq_result/', views.sq_result, name = 'sq_result'),
+    path('tq_records_result/', views.tq_records_result, name = 'tq_records_result'),
+    path('lq_champ_result/', views.lq_champ_result, name = 'lq_champ_result'),
     path('rq_result/', views.rq_result, name = 'rq_result')
 ]
