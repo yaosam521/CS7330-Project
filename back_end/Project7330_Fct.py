@@ -281,7 +281,7 @@ def move_team(team, fromLeague, toLeague, CurrentDate):	#Done										# paramet
 #-----------------------------------------------------Added insertion------------------------------------------------------------------------------
 def init_date():#DONE
 	if Dates.find_one()==None:
-		Dates.insert_one({"Current":"2022/01/01"})
+		Dates.insert_one({"Current":"2022-01-01"})
 
 def get_date():#DONE
 	dateDict=Dates.find_one()
@@ -308,7 +308,7 @@ def get_season_sets(nGames, lName="", teams=[]):#DONE
 		league=Leagues.find_one({"lName":lName})
 		if league==None:
 			print("get_season_sets: no such league")
-			return None
+			return []
 
 		CompetingTeams=league["Teams"]
 
