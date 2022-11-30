@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Franchise of Extraordinary Gentlemen</title>
+    {% include '../common/bootstrap_cdn.html' %}
+  </head>
+  <body>
+    {% include '../common/navbar.html' %}
+    <!-- Everything you need to write goes here! -->
+    <div class="container">
+        <h1>Season Query Result</h1>
+        <p>
+            <b>League Name</b>: {{result.lName}}<br>
+            <b>Start Date</b>: {{result.sDate}}<br>
+            <b>End Date</b>: {{result.eDate}}<br>
+            <b>Number of Games</b>: {{result.gNumber}}<br>
+            <b>Season Rules</b>:<br>
+            <b>Wins</b>: {{result.sRules.win}}<br>
+            <b>Draws</b>: {{result.sRules.draw}}<br>
+            <b>Loses</b>: {{result.sRules.lose}}<br>
+        </p>
+    </div>
+    {% include '../common/bootstrap_js.html' %}
+  </body>
+</html>

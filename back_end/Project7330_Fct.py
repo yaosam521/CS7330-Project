@@ -276,7 +276,7 @@ def change_date(newDate):
 
 #----------------------------------------------------------Querys----------------------------------------------------------------------------------
 
-def season_query(league, sDate, eDate):	#Done													# parameters should be str dayFormat= "%Y-%m-%d"
+def season_info_query(league, sDate, eDate):	#Done													# parameters should be str dayFormat= "%Y-%m-%d"
 	season=Seasons.find_one({"lName":league, "sDate":sDate, "eDate":eDate})
 	if (season == None):
 		print("season_query: No such season")
@@ -289,7 +289,7 @@ def season_query(league, sDate, eDate):	#Done													# parameters should be
 	return sortedStanding	
 	#return True
 
-def game_query(team1, team2):																	# team1/2 should be str
+def game_info_query(team1, team2):																	# team1/2 should be str
 	gQueryOrgnizer={}
 	matchCondition={"$match": {"Record."+team1:{"$exists": 1}, "Record."+team2:{"$exists": 1}}}
 	groupCondition={"$group": { "_id": "$SeasonId", "Games":{"$addToSet": {"game":(str('$'+"Record."+team1),str('$'+"Record."+team2),"$Date")}} }}
@@ -426,7 +426,6 @@ def rating_query(league, sDate, eDate):
 		print("rating_query: No Such Season")
 		___res="No Such Season"
 		return ___res
-		#return False
 	teamsCurrentRating={}
 	for team in season["Standing"].keys():
 		teamsCurrentRating[team]=Teams.find_one({"tName":team})["Rating"]						# get all teams current ratings
