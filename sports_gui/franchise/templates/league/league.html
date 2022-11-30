@@ -39,8 +39,16 @@
           </select>
 
           <label for="maxGames">Max Games per Day</label>
-          <input type="number" id="maxGames" name="maxGames" oninput="checkForm()">
-          
+          <input type="number" id="maxGames" name="maxGames" oninput="checkForm()" min="0">
+          <br>
+          <h3>Game Rules</h3>
+          <label for="wins">Wins</label>
+          <input type="number" id="wins" name="wins" min="0" oninput="checkForm()">
+          <label for="loss">Losses</label>
+          <input type="number" id="loss" name="loss" min="0" oninput="checkForm()">
+          <label for="wins">draw</label>
+          <input type="number" id="draw" name="draw" min="0" oninput="checkForm()">
+          <br>
           <br>
           <button type="submit" class="btn btn-primary" id="autoSubmit" disabled>Create Season</button>
           <h1>Or Manually Insert the Teams</h1>
@@ -58,7 +66,11 @@
             startDate = document.forms["newLeague"]["startDate"].value;
             endDate = document.forms["newLeague"]["endDate"].value;
             gSchedule = document.forms["newLeague"]["gameSchedule"].value;
-            items.push(lName, cName,SSN,teams,startDate,endDate,gSchedule);
+            wins = document.forms["newLeague"]["wins"].value;
+            loss = document.forms["newLeague"]["loss"].value;
+            draw = document.forms["newLeague"]["draw"].value;
+            
+            items.push(lName, cName,SSN,teams,startDate,endDate,gSchedule,wins,loss,draw);
             for(i=0; i < items.length; i++){
               if (items[i].length == 0){
                 canSubmit = false;

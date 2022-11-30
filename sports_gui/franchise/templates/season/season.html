@@ -33,6 +33,14 @@
         <label for="maxGames">Max Games per Day</label>
         <input type="number" id="maxGames" name="maxGames" oninput="checkForm()">
         <br>
+        <h3>Game Rules</h3>
+        <label for="wins">Wins</label>
+        <input type="number" id="wins" name="wins" min="0" oninput="checkForm()">
+        <label for="loss">Losses</label>
+        <input type="number" id="loss" name="loss" min="0" oninput="checkForm()">
+        <label for="wins">draw</label>
+        <input type="number" id="draw" name="draw" min="0" oninput="checkForm()">
+        <br>
         <button type="submit" class="btn btn-primary" id="autoSubmit" disabled>Create Season</button>
         <br>
       </form>
@@ -55,7 +63,10 @@
         gSchedule = document.forms["newSeason"]["gameSchedule"].value;
         gNumber = document.forms["newSeason"]["gNumber"].value;
         maxGames = document.forms["newSeason"]["maxGames"].value;
-        items.push(lName,startDate,endDate,gSchedule,gNumber,maxGames);
+        wins = document.forms["newSeason"]["wins"].value;
+        losses = document.forms["newSeason"]["loss"].value;
+        draws = document.forms["newSeason"]["draw"].value;
+        items.push(lName,startDate,endDate,gSchedule,gNumber,maxGames,wins,losses,draws);
         for(i=0; i < items.length; i++){
           if (items[i].length == 0){
             canSubmit = false;
