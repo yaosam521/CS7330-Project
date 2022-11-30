@@ -8,6 +8,7 @@ from back_end.Project7330_Fct import *
 
 
 def index(request):
+    init_date()
     template = loader.get_template('home/index.html')
     return HttpResponse(template.render())
 
