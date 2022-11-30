@@ -296,6 +296,11 @@ def change_date(newDate):
 
 def get_season_sets(lName, nGames):
 	league=Leagues.find_one({"lName":lName})
+	if league==None:
+		___res="get_season_sets: no such league"
+		print(___res)
+		return ___res
+		
 	CompetingTeams=league["Teams"]
 	games_sets=[]	
 	for gNumber in range(0,nGames):								
@@ -303,7 +308,8 @@ def get_season_sets(lName, nGames):
 			for j in range(i+1,len(CompetingTeams)):
 				games_sets.append((CompetingTeams[i],CompetingTeams[j]))
 	
-	print(games_sets)
+	print("sets generated Succecefully")
+	return games_sets
 
 
 
