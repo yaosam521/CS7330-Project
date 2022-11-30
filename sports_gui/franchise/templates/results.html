@@ -9,28 +9,56 @@
   </head>
   <body>
     {% include './common/navbar.html' %}
-    <!-- Everything you need to write goes here! -->
     <div class="container">
       <br>
       <h1>Enter Game Results</h1>
-      <form action='/resultsEntered' method='get'>
+      <form action='/resultsEntered' method='get' id="gameResults">
         <label for="team1">Team 1</label>
-        <input type="text" name="team1" id="team1">
+        <input type="text" name="team1" id="team1" oninput="checkForm()">
         <br>
         <label for="team1Score">Team 1 Score</label>
-        <input type="number" name="team1Score" id="team1Score">
+        <input type="number" name="team1Score" id="team1Score" oninput="checkForm()">
+        <label for="team1Rating">Team 1 Rating (optional)</label>
+        <input type="number" name="team1Rating" id="team1Rating">
         <br>
         <label for="team2">Team2</label>
-        <input type="text" name="team2" id="team2">
+        <input type="text" name="team2" id="team2" oninput="checkForm()">
         <br>
         <label for="team2Score">Team 2 Score</label>
-        <input type="number" name="team2Score" id="team2Score">
+        <input type="number" name="team2Score" id="team2Score" oninput="checkForm()">
+        <label for="team2Rating">Team 2 Rating (optional)</label>
+        <input type="number" name="team2Rating" id="team2Rating">
         <br>
         <label for="datePlayed">Date Played</label>
-        <input type="date" name="datePlayed" id="datePlayed">
+        <input type="date" name="datePlayed" id="datePlayed" oninput="checkForm()">
         <br>
-        <button type="submit" class="btn btn-primary">Submit Game Results</button>
+        <label for="forceUpdate">Force Update?</label>
+        <select name="forceUpdate" id="forceUpdate" oninput="checkForm()">
+          <option value="-1" Default>-</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+        <button type="submit" class="btn btn-primary" id="gameResultsButton" disabled>Submit Game Results</button>
       </form>
+      <script>
+        function checkForm(){
+          canSubmit = true;
+          items = [];
+          team1 = document.forms["gameResults"]["team1"].value;
+          team1Score = document.forms["gameResults"]["team1Score"].value;
+          team2 = document.forms["gameResults"]["team2"].value;
+          team2Score = document.forms["gameResults"]["team2Score"].value;
+          datePlayed = document.forms["gameResults"]["datePlayed"].value;
+          forceUpdate = document.forms["gameResults"]["forceUpdate"].value;
+          items.push(team1,team1Score,team2,team2Score,datePlayed,forceUpdate);
+          for(i = 0; i < items.length; i++){
+            if (items[i].length == 0 || forceUpdate == -1){
+              canSubmit = false;
+            }
+          }
+          document.getElementById("gameResultsButton").disabled = !canSubmit;
+        }
+      </script>
     </div>
     {% include './common/bootstrap_js.html' %}
   </body>

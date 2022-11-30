@@ -72,6 +72,19 @@ def lq_result(request):
     params = {'result':league_info_query(lq)}
     return render(request, 'queryResults/lq_result.html', params)
 
+def gq_result(request):
+    t1 = request.GET.get('team1')
+    t2 = request.GET.get('team2')
+    params = {'result':game_info_query(t1,t2)}
+    return render(request, 'queryResults/gq_result.html', params)
+    
+def sq_result(request):
+    name = request.GET.get('lName')
+    sdate = request.GET.get('sDate')
+    edate = request.GET.get('eDate')
+    params = {'result':season_info_query(name, sdate, edate)}
+    return render(request, 'queryResults/sq_result.html', params)
+
 def resultsEntered(request):
     teamName1 = request.GET.get('team1', 'default')
     teamScore1 = request.GET.get('team1Score', 'default')

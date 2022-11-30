@@ -23,6 +23,7 @@
 
             <label for="autoInsert">Auto Insert?</label>
             <select name="autoInsert" id="autoInsert" oninput="checkForm()">
+              <option value="-1" Default>-</option>
               <option value="0">No</option>
               <option value="1">Yes</option>
             </select>
@@ -43,16 +44,22 @@
           
           items.push(lName, startDate,endDate,autoInsert);
           for(i=0; i < items.length; i++){
-            if (items[i].length == 0 || items[i] == 0){
+            if (items[i].length == 0 || autoInsert == -1){
               canSubmit = false;
             }
           }
-          console.log(autoInsert);
-          if(autoInsert == 1){
+          console.log(canSubmit);
+
+          if(autoInsert == 0 && canSubmit){
             document.getElementById("autoSubmit").disabled = true;
             document.getElementById("manualSubmit").disabled = false;
-          }else{
+          }
+          if(autoInsert == 1 && canSubmit){
             document.getElementById("autoSubmit").disabled = false;
+            document.getElementById("manualSubmit").disabled = true;
+          }
+          if(autoInsert == -1){
+            document.getElementById("autoSubmit").disabled = true;
             document.getElementById("manualSubmit").disabled = true;
           }
         }

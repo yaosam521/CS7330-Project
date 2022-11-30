@@ -448,7 +448,6 @@ def rating_query(league, sDate, eDate):
 		print("rating_query: No Such Season")
 		___res="No Such Season"
 		return ___res
-		#return False
 	teamsCurrentRating={}
 	for team in season["Standing"].keys():
 		teamsCurrentRating[team]=Teams.find_one({"tName":team})["Rating"]						# get all teams current ratings

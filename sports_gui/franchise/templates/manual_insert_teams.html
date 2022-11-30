@@ -14,6 +14,10 @@
         <p>Set the date and field for each game about to happen</p>
         {# for pair in teams #}
           {# print all the teams and the fields to edit the date and the fields #}
+          <label for="gameDate">Date</label>
+          <input type="text" name="gameDate" id="gameDate">
+          <label for="fieldName">Field</label>
+          <input type="text" name="fieldName" id="fieldName">
         {# endfor #}
     </div>
     {% include './common/bootstrap_js.html' %}

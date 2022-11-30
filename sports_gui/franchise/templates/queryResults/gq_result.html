@@ -10,19 +10,9 @@
   <body>
     {% include '../common/navbar.html' %}
     <div class="container">
-      <h1>Query Results</h1>
-      <p>
-        {% if result.tName == null %}
-          <p>{{result}}</p>
-        {% else %}
-          <b>Name</b>: {{result.tName}}<br>
-          <b>City</b>: {{result.City}}<br>
-          <b>State</b>: {{result.State}}<br>
-          <b>Field</b>: {{result.Field}}<br>
-          <b>Rating</b>: {{result.Rating}}
-        {% endif %}
-       </p>
-       <br>
+        <h1>Query Results</h1>
+            {{result}}<br>
+            {% if result. %}
     </div>
     {% include '../common/bootstrap_js.html' %}
   </body>

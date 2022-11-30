@@ -79,21 +79,38 @@
             document.getElementById("manualSubmit").disabled = !canSubmit;
             document.getElementById("autoSubmit").disabled = !canSubmit;
           }
+
+          function checkTeamForm(){
+            canSubmit = true;
+            items = [];
+            tName = document.forms["teamForm"]["tName"].value;
+            City = document.forms["teamForm"]["City"].value;
+            State = document.forms["teamForm"]["State"].value;
+            Field = document.forms["teamForm"]["Field"].value;
+            Rating = document.forms["teamForm"]["Rating"].value;
+            items.push(tName,City,State, Field,Rating)
+            for(i=0;i<items.length;i++){
+              if(items[i].length==0 || State == -1){
+                canSubmit = false;
+              }
+            }
+            document.getElementById("createTeamButton").disabled = !canSubmit;
+          }
         </script>
 
         <br>
         <br>
         <h1>Enter a new Team Here!</h1>
-        <form>
+        <form name="teamForm">
           <label for="tName">Team Name</label>
-          <input type="text" id="tName" name="tName">
+          <input type="text" id="tName" name="tName" oninput="checkTeamForm()">
           <br>
           <label for="City">City</label>
-          <input type="text" id="City" name="City">
+          <input type="text" id="City" name="City" oninput="checkTeamForm()">
           <br>
           <label for="State">State:</label>
-          <select id="State" name="State">
-            <option selected>State</option>
+          <select id="State" name="State" oninput="checkTeamForm()">
+            <option value = "-1" selected>State</option>
             <option value="AL">AL</option>
             <option value="AK">AK</option>
             <option value="AZ">AZ</option>
@@ -148,12 +165,12 @@
           </select>
           <br>
           <label for="Field">Field Name</label>
-          <input type="text" id="Field" name="Field">
+          <input type="text" id="Field" name="Field" oninput="checkTeamForm()">
           <br>
           <label for="Rating">Rating</label>
-          <input type="text" id="Rating" name="Rating">
+          <input type="text" id="Rating" name="Rating" oninput="checkTeamForm()">
           <br>
-          <button type="submit" class="btn btn-primary">Create Team</button>
+          <button type="submit" class="btn btn-primary" id="createTeamButton" disabled>Create Team</button>
         </form>
         <br>
     </div>
