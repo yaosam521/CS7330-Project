@@ -12,8 +12,8 @@
     <div class="container">
         <h1 onclick="test()">Manual Teams</h1>
         <p>Set the date and field for each game about to happen</p><br>
-        {{result.lName}}
-        <form id="testForm">
+        {{result}}
+        <form action='/mit_2' method='get' id="testForm">
           {% for i in pairs %}
             {{i}}
             <label for="gameDate{{forloop.counter}}">Date</label>
@@ -23,18 +23,19 @@
             <br>
           {% endfor %}
             <button id="manualTeamSubmit" class="btn btn-primary" disabled>Enter Teams</button>
+          <p id="teamNumber" style="color: white;">{{length}}</p><!--A Cheat way to store the length of the array lmao-->
+          <p id="teamNumber" style="color: white;" name="lName">{{lName}}</p>
+          <p id="teamNumber" style="color: white;" name="cName">{{cName}}</p>
+          <p id="teamNumber" style="color: white;" name="cSSN">{{cSSN}}</p>
+          <p id="teamNumber" style="color: white;" name="teams">{{teams}}</p>
+          <p id="teamNumber" style="color: white;" name="startDate">{{startDate}}</p>
+          <p id="teamNumber" style="color: white;" name="endDate">{{endDate}}</p>
+          <p id="teamNumber" style="color: white;" name="gSchedule">{{gSchedule}}</p>
+          <p id="teamNumber" style="color: white;" name="win">{{win}}</p> 
+          <p id="teamNumber" style="color: white;" name="loss">{{loss}}</p> 
+          <p id="teamNumber" style="color: white;" name="draw">{{draw}}</p> 
         </form>
-        <p id="teamNumber" style="color: white;">{{length}}</p><!--A Cheat way to store the length of the array lmao-->
-        <p id="teamNumber" style="color: white;" name="lName">{{lName}}</p>
-        <p id="teamNumber" style="color: white;" name="cName">{{cName}}</p>
-        <p id="teamNumber" style="color: white;" name="cSSN">{{cSSN}}</p>
-        <p id="teamNumber" style="color: white;" name="teams">{{teams}}</p>
-        <p id="teamNumber" style="color: white;" name="startDate">{{startDate}}</p>
-        <p id="teamNumber" style="color: white;" name="endDate">{{endDate}}</p>
-        <p id="teamNumber" style="color: white;" name="gSchedule">{{gSchedule}}</p>
-        <p id="teamNumber" style="color: white;" name="win">{{win}}</p> 
-        <p id="teamNumber" style="color: white;" name="loss">{{loss}}</p> 
-        <p id="teamNumber" style="color: white;" name="draw">{{draw}}</p> 
+        
       
     </div>
     <script>

@@ -44,8 +44,10 @@ def manual_insert_teams(request):
     Cname = request.GET.get('cName')
     CSSN = request.GET.get('SSN')
     teams = request.GET.get('Teams')
-    # teams_arr = teams.split(',')
-    inLeagues = {"lName": lname,"Comissioner": {"cName": Cname, "SSN": CSSN}, "Teams":teams}
+    print(teams)
+    teams_arr = teams.split(',')
+    print(teams_arr)
+    inLeagues = {"lName": lname,"Comissioner": {"cName": Cname, "SSN": CSSN}, "Teams":teams_arr}
     sdate = request.GET.get('startDate')
     edate = request.GET.get('endDate')
     gnum = request.GET.get('gNumber')
@@ -59,9 +61,16 @@ def manual_insert_teams(request):
         autoInsertion=True
     else:
         autoInsertion= False
-    params = {'result': insert_league(inLeagues,inSeasons,autoInsertion,maxPerDay=int(max)),'pairs': [("A","B"),("A","B"),("A","B"),("A","B")],'length':len([("A","B"),("A","B"),("A","B"),("A","B")])}
-    
+        
+    sets = get_season_sets(int(gnum),teams=teams_arr)
+    params = {'result':lname,'pairs':sets,'length':len(sets)}
     return render(request, 'manual_insert_teams.html', params)
+
+def mit_2(request):
+    lname = request.GET.get('lName')
+    print(lname)
+    params = {'res': lname}
+    return render(request, 'mit_2.html', params)
 
 
 def teamResult(request):
@@ -75,8 +84,14 @@ def teamResult(request):
     return render(request, 'league/teamResult.html', params)
 
 def date(request):
-    template = loader.get_template('date/date.html')
-    return HttpResponse(template.render())
+    params = {'date':get_date()}
+    return render(request, 'date/date.html', params)
+
+def date2(request):
+    newdate = request.GET.get('newdate')
+    print(newdate)
+    params = {'date':change_date(newdate)}
+    return render(request, 'date/date2.html', params)
 
 def season(request):
     template = loader.get_template('season/season.html')
@@ -176,7 +191,9 @@ def resultsEntered(request):
 
 
 def lq_champ_result(request):
-    return render(request, "queryResults/lq_champ_result.html")
+    lName = request.GET.get('leagueQuery')
+    params = {'champion': league_champians_query(lName)}
+    return render(request, "queryResults/lq_champ_result.html", params)
 
 def tq_records_result(request):
     return render(request, "queryResults/tq_records_result.html")

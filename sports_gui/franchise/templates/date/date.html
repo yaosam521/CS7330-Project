@@ -11,13 +11,13 @@
     {% include '../common/navbar.html' %}
     <div class="container">
         <h1>Current Date</h1>
-        <p>{# getDate #}</p><!-- In here goes the Current Date, pulled from the db -->
+        <u><p>{{date}}</p></u>
         <h1>Change the Date:</h1>
-        <form>
+        <form action='/date2' method='get'>
           <label for="dateChange">Change Current Date</label>
-          <input type="date" id="dateChange" name="">
+          <input type="date" id="dateChange" name="newdate">
           <br>
-          <buton type="submit" class="btn btn-primary">Change</buton>
+          <button type="submit" class="btn btn-primary">Change</button>
         </form>
     </div>
     {% include '../common/bootstrap_js.html' %}

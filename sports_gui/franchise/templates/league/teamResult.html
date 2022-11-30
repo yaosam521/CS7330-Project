@@ -8,12 +8,13 @@
     {% include '../common/bootstrap_cdn.html' %}
   </head>
   <body>
-    <div class = "container">
-        <h1>Team Entered</h1>
-        <p>
-            {{result}}
-        </p>
+    {% include '../common/navbar.html' %}
+    <div class="container">
+      <h1>Team Insertion Result </h1><br>
+      <p>
+        {{result}}
+      </p>
     </div>
-    
+    {% include '../common/bootstrap_js.html' %}
   </body>
-  </html>
+</html>

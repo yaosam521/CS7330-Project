@@ -281,7 +281,7 @@ def move_team(team, fromLeague, toLeague, CurrentDate):	#Done										# paramet
 #-----------------------------------------------------Added insertion------------------------------------------------------------------------------
 def init_date():
 	if Dates.find_one()==None:
-		Dates.insert_one({"Current":"2022/01/01"})
+		Dates.insert_one({"Current":"2022-01-01"})
 
 def get_date():
 	dateDict=Dates.find_one()
@@ -300,15 +300,19 @@ def change_date(newDate):
 			return ___res
 
 	Dates.update_one({"_id":dateDict["_id"]}, {dateDict["Current"]: newDate})
+ 
+ 
+def get_season_sets(nGames, lName="", teams=[]):#DONE
+	if not teams == []:
+		CompetingTeams=teams
+	else:
+		league=Leagues.find_one({"lName":lName})
+		if league==None:
+			print("get_season_sets: no such league")
+			return []
 
-def get_season_sets(lName, nGames):
-	league=Leagues.find_one({"lName":lName})
-	if league==None:
-		___res="get_season_sets: no such league"
-		print(___res)
-		return ___res
+		CompetingTeams=league["Teams"]
 
-	CompetingTeams=league["Teams"]
 	games_sets=[]	
 	for gNumber in range(0,nGames):								
 		for i in range(0,len(CompetingTeams)):
@@ -317,6 +321,7 @@ def get_season_sets(lName, nGames):
 	
 	print("sets generated Succecefully")
 	return games_sets
+ 
 
 
 
