@@ -19,10 +19,10 @@ def league(request):
 def leagueResult(request):
     lname = request.GET.get('lName')
     Cname = request.GET.get('cName')
-    CSSN = request.GET.get('SSN')
+    ssn = request.GET.get('SSN')
     teams = request.GET.get('Teams')
     teams_arr = teams.split(',')
-    inLeagues = {"lName": lname,"Comissioner": {"cName": Cname, "SSN": CSSN}, "Teams":teams_arr}
+    inLeagues = {"lName": lname,"Comissioner": {"cName": Cname, "SSN": ssn}, "Teams":teams_arr}
     sdate = request.GET.get('startDate')
     edate = request.GET.get('endDate')
     gnum = request.GET.get('gNumber')
@@ -32,46 +32,128 @@ def leagueResult(request):
     loss = request.GET.get('loss')
     inSeasons = {"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": int(gnum), "sRules": {"win":int(win), "draw": int(draw), "lose":int(loss)}}
     ai = request.GET.get('gameSchedule')
-    if ai ==1 :
-        autoInsertion=True
-    else:
-        autoInsertion= False
-    params = {'result': insert_league(inLeagues,inSeasons,autoInsertion,maxPerDay=int(max))}
-    return render(request, 'league/leagueResult.html', params)
-
-def manual_insert_teams(request):
-    lname = request.GET.get('lName')
-    Cname = request.GET.get('cName')
-    CSSN = request.GET.get('SSN')
-    teams = request.GET.get('Teams')
-    print(teams)
-    teams_arr = teams.split(',')
-    print(teams_arr)
-    inLeagues = {"lName": lname,"Comissioner": {"cName": Cname, "SSN": CSSN}, "Teams":teams_arr}
-    sdate = request.GET.get('startDate')
-    edate = request.GET.get('endDate')
-    gnum = request.GET.get('gNumber')
-    max = request.GET.get('maxGames')
-    win = request.GET.get('wins')
-    draw = request.GET.get('draw')
-    loss = request.GET.get('loss')
-    inSeasons = {"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": int(gnum), "sRules": {"win":int(win), "draw": int(draw), "lose":int(loss)}}
-    ai = request.GET.get('gameSchedule')
-    if ai ==1 :
+    print("----------------------------------->",ai)
+    if ai =='1' :
         autoInsertion=True
     else:
         autoInsertion= False
         
-    sets = get_season_sets(int(gnum),teams=teams_arr)
-    params = {'result':lname,'pairs':sets,'length':len(sets)}
+    print("----------------------------------->",autoInsertion)
+    params = {'result': insert_league(inLeagues,inSeasons,autoInsertion,maxPerDay=int(max))}
+    return render(request, 'league/leagueResult.html', params)
+
+def manual_insert_teams(request):
+    comingFrom = request.GET.get('comingFrom')
+    if (comingFrom == "league"):
+        lname = request.GET.get('lName')
+        Cname = request.GET.get('cName')
+        ssn = request.GET.get('SSN')
+        teams = request.GET.get('Teams')
+        teams_arr = teams.split(',')
+        gnum = request.GET.get('gNumber')
+        maxi = request.GET.get('maxGames')
+        win = request.GET.get('wins')
+        draw = request.GET.get('draw')
+        loss = request.GET.get('loss')
+        sdate = request.GET.get('startDate')
+        edate = request.GET.get('endDate')
+        ai = request.GET.get('gameSchedule')
+        sets = get_season_sets(int(gnum),teams=teams_arr)
+        params = {'comingFrom':comingFrom,'loss':loss,'draw':draw,'win':win,'maxi':maxi,'gnum':gnum,'edate':edate,'sdate':sdate,'teams':teams,'ssn':ssn,'comingfrom':comingFrom,'lname':lname,'cname':Cname,'pairs':sets,'length':len(sets)}
+    
+    elif (comingFrom == "season"):
+        lname = request.GET.get('lName')
+        sdate = request.GET.get('sDate')
+        edate = request.GET.get('eDate')
+        gnum = request.GET.get('gNumber')
+        maxi = request.GET.get('maxGames')
+        win = request.GET.get('wins')
+        draw = request.GET.get('draw')
+        loss = request.GET.get('loss')    
+        sets = get_season_sets(int(gnum),lName=lname)
+        params = {'comingFrom':comingFrom,'lname':lname,'loss':loss,'draw':draw,'win':win,'maxi':maxi,'gnum':gnum,'edate':edate,'sdate':sdate,'pairs':sets,'length':len(sets)} 
+    else:
+        lname = request.GET.get('lName')
+        sdate = request.GET.get('sDate')
+        edate = request.GET.get('eDate')
+        gnum = request.GET.get('numgames')
+        maxi = request.GET.get('maxGames')
+        sets = get_season_sets(int(gnum),lName=lname)
+        params = {'comingFrom':comingFrom,'gnum':gnum,'maxi':maxi,'edate':edate,'sdate':sdate,'lname':lname,'pairs':sets,'length':len(sets)}
+           
+    
     return render(request, 'manual_insert_teams.html', params)
 
-def mit_2(request):
-    lname = request.GET.get('lName')
-    print(lname)
-    params = {'res': lname}
-    return render(request, 'mit_2.html', params)
+def string_to_list(res):
+    res= res.replace('(', '')
+    res= res.replace(')', '')
+    res= res.replace('[', '')
+    res= res.replace(']', '')
+    temp= res.split(',')
+    res=[]
+    for i in range(0, len(temp),2):
+        res.append((temp[i],temp[i+1]))
+    return res
 
+
+def manual_result(request):
+    pairs= request.GET.get('pairs')
+    print("***********",pairs)
+    pairs = string_to_list(pairs)
+    length= request.GET.get('length')
+    print("__________________", pairs)
+    inGames=[]
+    for i in range(1, int(length)+1):
+        for pair in pairs:
+            print("########################",pair)
+            (team1, team2)=pair
+            field=request.GET.get('fieldName'+str(i))
+            date=request.GET.get('gameDate'+str(i))
+            inGames.append({"Record":{team1: None, team2: None}, "Field": field, "Date":date})
+            
+            print(inGames)
+    cf = request.GET.get('comingFrom')
+    print("we are printing CF : ",cf)
+    #print("we are printing LEN : ",length)
+    if (cf == "league"):
+        lname = request.GET.get('lName')
+        print("we are printing : ", lname)
+        Cname = request.GET.get('cName')
+        ssn = request.GET.get('SSN')
+        teams = request.GET.get('Teams')
+        teams_arr = teams.split(',')
+        gnum = request.GET.get('gNumber')
+        maxi = request.GET.get('maxGames')
+        win = request.GET.get('wins')
+        draw = request.GET.get('draw')
+        loss = request.GET.get('loss')
+        sdate = request.GET.get('startDate')
+        edate = request.GET.get('endDate')
+        ai = request.GET.get('gameSchedule')
+        inLeagues = {"lName": lname,"Comissioner": {"cName": Cname, "SSN": ssn}, "Teams":teams_arr}
+        inSeasons = {"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": int(gnum), "sRules": {"win":int(win), "draw": int(draw), "lose":int(loss)}}
+        params = {'res':insert_league(inLeagues, inSeasons, False, inGames=inGames, maxPerDay=int(maxi), checkForTeams=False)}
+    
+    elif (cf == "season"):
+        lname = request.GET.get('lName')
+        sdate = request.GET.get('startDate')
+        edate = request.GET.get('endDate')
+        gnum = request.GET.get('gNumber')
+        maxi = request.GET.get('maxGames')
+        win = request.GET.get('wins')
+        draw = request.GET.get('draw')
+        loss = request.GET.get('loss')
+        inSeasons = {"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": int(gnum), "sRules": {"win":int(win), "draw": int(draw), "lose":int(loss)}}
+        params = {'res':insert_season(inSeasons, False, inGames=inGames, maxPerDay=int(maxi))} 
+    else:
+        lname = request.GET.get('lName')
+        sdate = request.GET.get('startDate')
+        edate = request.GET.get('endDate')
+        gnum = request.GET.get('numgames')
+        maxi = request.GET.get('maxGames')
+        params = {'res':insert_games_info(lname, sdate, edate, False, inGames=inGames, maxPerDay=int(maxi))}
+    return render(request, 'manual_result.html', params)
+    
 
 def teamResult(request):
     tname = request.GET.get('tName')
@@ -107,12 +189,12 @@ def seasonCreated(request):
     else:
         autoInsertion= False
     gnum = request.GET.get('gNumber')
-    max = request.GET.get('maxGames')
+    maxi = request.GET.get('maxGames')
     win = request.GET.get('wins')
     loss = request.GET.get('loss')
     draw = request.GET.get('draw')
     inSeasons={"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": int(gnum), "sRules": {"win":int(win), "draw":int(draw), "lose":int(loss)}}
-    params = {'result': insert_season(inSeasons,autoInsertion,maxPerDay=int(max),inGames={})}
+    params = {'result': insert_season(inSeasons,autoInsertion,maxPerDay=int(maxi),inGames={})}
 
     return render(request, 'season/seasonCreated.html', params)
 
@@ -221,8 +303,9 @@ def game_result(request):
     lName = request.GET.get('lName')
     sDate = request.GET.get('sDate')
     eDate = request.GET.get('eDate')
-    max = request.GET.get('#')
-    params = {'result':insert_games_info(lName, sDate, eDate, True, inGames={}, maxPerDay=100)}
+    maxi = request.GET.get('maxGames')
+    print(lName, sDate, eDate, maxi)
+    params = {'result':insert_games_info(lName, sDate, eDate, True, inGames={}, maxPerDay=int(maxi))}
     return render(request, 'game_result.html', params)
 
 def move_teams_2(request):

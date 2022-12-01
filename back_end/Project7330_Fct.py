@@ -40,7 +40,7 @@ def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100
 
 	try:
 		LeagueId=Leagues.insert_one(inLeagues)	
-		if insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCall=True) == True:
+		if insert_season(inSeasons, autoInsertion, inGames=inGames, maxPerDay=100, inTeamCall=True) == True:
 			print("insert_league: League succ insertion")
 			___res= "League succ insertion"
 			return ___res
@@ -124,8 +124,12 @@ def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCal
 			return ___res
 
 def insert_games_info(lName, sDate, eDate, autoInsertion, inGames={}, maxPerDay=100):#DONE
-	Season_dict=Seasons.find_one({"lName":lName, "sDate":sDate, "eDate":eDate})
 	League=Leagues.find_one({"lName":lName})
+	if League== None:
+		return "no such league"
+	Season_dict=Seasons.find_one({"lName":lName, "sDate":sDate, "eDate":eDate})
+	if Season_dict== None:
+		return "no such season"
 	insert_games(Season_dict, autoInsertion, inGames=inGames, CompetingTeams=League["Teams"], maxPerDay=maxPerDay)
 
 def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, maxPerDay=100, inSeasonCall=False): 	# try to rearange your parameters/ remove the default for some
