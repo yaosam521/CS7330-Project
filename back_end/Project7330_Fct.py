@@ -13,6 +13,8 @@ mydb.Leagues.create_index([('lName', pymongo.ASCENDING)], unique=True)						# cr
 Teams=mydb["Teams"]																			# create a collection named Teams
 mydb.Teams.create_index([('tName', pymongo.ASCENDING)], unique=True)						# create an index on tName
 
+# TODO - Zine's Special Function Tomorrow
+
 Seasons=mydb["Seasons"]																		# create a collection named Seasons
 mydb.Seasons.create_index([('lName', pymongo.ASCENDING)], unique=False)						# create an index on lName (optimize queries)
 
@@ -22,7 +24,7 @@ Dates=mydb["Dates"]
 
 graph=defaultdict(list)
 
-def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100, checkForTeams=False):# Done 
+def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100, checkForTeams=True):# Done 
 	# Start working on Leagues collection---------------------------------------------------------------------------------------------------
 	if checkForTeams:
 		for team in inLeagues["Teams"]:											
@@ -83,7 +85,15 @@ def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCal
 			return False
 		else:
 			___res="no such league"
+			print(___res)
 			return ___res
+	if not (inSeasons["sRules"]["win"] > inSeasons["sRules"]["lose"] and inSeasons["sRules"]["draw"] >= inSeasons["sRules"]["lose"]):
+			if inTeamCall== True:
+				return False
+			else:
+				___res="wrong season rules"
+				print(___res)
+				return ___res
 
 	c1, c2, c3=[{"$gte": inSeasons["sDate"]},{"$gte": inSeasons["eDate"]},{"$lt": inSeasons["sDate"]}] # Check for conflicts
 	conflict= Seasons.find_one({"lName": inSeasons["lName"], "$nor": [{"$or": [{"$and":[{"sDate":c1},{"sDate":c2}]},{"$and":[{"sDate":c3},{"eDate":c3}]}]}]})

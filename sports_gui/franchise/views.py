@@ -98,6 +98,10 @@ def string_to_list(res):
 
 def manual_result(request):
     pairs= request.GET.get('pairs')
+    if pairs == '[]':
+        params = {'res' : "No Teams available"}
+        return render(request, 'manual_result.html', params)
+
     print("***********",pairs)
     pairs = string_to_list(pairs)
     length= request.GET.get('length')
@@ -132,7 +136,7 @@ def manual_result(request):
         ai = request.GET.get('gameSchedule')
         inLeagues = {"lName": lname,"Comissioner": {"cName": Cname, "SSN": ssn}, "Teams":teams_arr}
         inSeasons = {"lName": lname, "sDate": sdate,"eDate": edate, "gNumber": int(gnum), "sRules": {"win":int(win), "draw": int(draw), "lose":int(loss)}}
-        params = {'res':insert_league(inLeagues, inSeasons, False, inGames=inGames, maxPerDay=int(maxi), checkForTeams=False)}
+        params = {'res':insert_league(inLeagues, inSeasons, False, inGames=inGames, maxPerDay=int(maxi))}
     
     elif (cf == "season"):
         lname = request.GET.get('lName')

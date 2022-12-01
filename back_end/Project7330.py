@@ -24,12 +24,12 @@ autoInsertion= True
 
 init_date()
 	
-
+for team in inTeams:
+	insert_team(team)
 
 #insert_league(inLeagues2)
 insert_league(inLeagues, inSeasons, autoInsertion)
-for team in inTeams:
-	insert_team(team)
+
 insert_season(inSeasons, autoInsertion, maxPerDay= 3, inGames=inGames)
 insert_season(inSeasonsManu, False, maxPerDay= 3)
 insert_game_res("E", -12, "D", 0, t1Rating=-34211.4, replace=True)
