@@ -40,7 +40,7 @@ def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100
 
 	try:
 		LeagueId=Leagues.insert_one(inLeagues)	
-		if insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCall=True) == True:
+		if insert_season(inSeasons, autoInsertion, inGames=inGames, maxPerDay=100, inTeamCall=True) == True:
 			print("insert_league: League succ insertion")
 			___res= "League succ insertion"
 			return ___res
@@ -124,8 +124,12 @@ def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCal
 			return ___res
 
 def insert_games_info(lName, sDate, eDate, autoInsertion, inGames={}, maxPerDay=100):#DONE
-	Season_dict=Seasons.find_one({"lName":lName, "sDate":sDate, "eDate":eDate})
 	League=Leagues.find_one({"lName":lName})
+	if League== None:
+		return "no such league"
+	Season_dict=Seasons.find_one({"lName":lName, "sDate":sDate, "eDate":eDate})
+	if Season_dict== None:
+		return "no such season"
 	insert_games(Season_dict, autoInsertion, inGames=inGames, CompetingTeams=League["Teams"], maxPerDay=maxPerDay)
 
 def insert_games(Season_dict, autoInsertion, inGames={}, CompetingTeams=None, maxPerDay=100, inSeasonCall=False): 	# try to rearange your parameters/ remove the default for some
@@ -325,6 +329,7 @@ def get_season_sets(nGames, lName="", teams=[]):#DONE
 	
 	print("sets generated Succecefully")
 	return games_sets
+ 
 
 
 
@@ -433,6 +438,7 @@ def league_info_query(lName):		#DONE															# lName should be str
 def league_champians_query(lName):		#PENDING														# lName should be str
 	seasonsRes=Seasons.find({"lName":lName},{"sDate":1, "eDate":1, "Standing":1})
 	noRes=1
+	___res=[]
 	for season in seasonsRes:
 		if noRes==1: noRes=0
 		season["_id"]=season["sDate"]+"---"+season["eDate"]										# replace _id with appropriate date
@@ -441,14 +447,16 @@ def league_champians_query(lName):		#PENDING														# lName should be str
 		champions= [{ key: value} for key, value in season["Standing"].items() if value == max(season["Standing"].values())]
 		season.pop("Standing")
 		season["Champions"]=champions															# insert Champians record to dict
-		print("league_champians_query: ",season)
+		#print("league_champians_query: ",season)
+		___res.append(season)
 	if noRes==1:
 		print("league_champians_query: no such record")
 		___res="no such record"
 		return ___res
 		#return False
 	else:
-		return season
+		print("league_champians_query: ",___res)
+		return ___res
 		#return True 
 	
 def RQ_longest_path(start, sequence):#USED

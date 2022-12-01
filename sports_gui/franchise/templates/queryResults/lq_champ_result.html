@@ -11,7 +11,11 @@
     {% include '../common/navbar.html' %}
     <div class="container">
         <h1>League Champs</h1>
-        {# champion #}
+        <p>
+          {% for i in champion %}
+          <li>{{ i }}</li>
+          {%endfor%}
+        </p>
     </div>
     {% include '../common/bootstrap_js.html' %}
   </body>

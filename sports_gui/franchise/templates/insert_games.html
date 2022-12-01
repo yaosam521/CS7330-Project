@@ -11,7 +11,7 @@
     {% include './common/navbar.html' %}
     <div class="container">
         <h1>Insert Games</h1>
-        <form action="" id="insertGames">
+        <form action='/game_result' method='get' id="insertGames">
             <label for="lName">League Name</label>
             <input type="text" name="lName" id="lName" oninput="checkForm()">
 
@@ -21,6 +21,11 @@
             <label for="eDate">End Date</label>
             <input type="date" name="eDate" id="eDate" oninput="checkForm()">
 
+            <label for="numgames">Number of Games</label>
+            <input type="number" name="numgames" id="numgames" oninput="checkForm()">
+            <label for="maxGames">Max # of Games</label>
+            <input type="number" name="maxGames" id="maxGames" oninput="checkForm()">
+
             <label for="autoInsert">Auto Insert?</label>
             <select name="autoInsert" id="autoInsert" oninput="checkForm()">
               <option value="-1" Default>-</option>
@@ -28,12 +33,11 @@
               <option value="1">Yes</option>
             </select>
 
-            <label for="maxGames">Max # of Games</label>
-            <input type="number" name="maxGames" id="maxGames" oninput="checkForm()">
+            
             <br>
             <button type="submit" class="btn btn-primary" id="autoSubmit" disabled>Auto Insert Games</button>
             <button type="submit" class="btn btn-primary" id="manualSubmit" formaction="/manual_insert_teams" disabled>Manual Insert Games</button>
-            <input type="text" name="comingFrom" value="insert_games" style="opacity: 0">
+            <input type="hidden" name="comingFrom" value="insert_games" style="opacity: 0">
         </form>
     </div>
     <script>

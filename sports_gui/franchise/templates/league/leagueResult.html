@@ -8,15 +8,13 @@
     {% include '../common/bootstrap_cdn.html' %}
   </head>
   <body>
-    <div class = "container">
-        <h1>League Entered</h1>
-        <p>
-            League Name : {{result.lName}}<br>
-            Commissioner Name : {{result.cName}}<br>
-            Commissioner SSN : {{result.SSN}}<br>
-            Teams : {{result.Teams}}
-        </p>
+    {% include '../common/navbar.html' %}
+    <div class="container">
+      <h1>League Insertion Result</h1><br>
+      <p>
+        {{result}}
+      </p>
     </div>
-    
+    {% include '../common/bootstrap_js.html' %}
   </body>
-  </html>
+</html>

@@ -10,97 +10,71 @@
   <body>
     {% include './common/navbar.html' %}
     <div class="container">
-      <h1 onclick="test()">Manual Teams</h1>
-      <p>Set the date and field for each game about to happen</p>
-      <form id="testForm">
-        {# if coming from league #}
-          <h1>Coming from League</h1>
-          <label for="lName" class="form-label">Enter League Name</label>
-          <input type="text" id = "lName" name="lName" value="{{length}}" disabled>
-          <br>
-          <label for="cName">Enter Commissioner</label>
-          <input type="text" id="cName" name="cName" value="{{length}}" disabled>
-          <br>
-          <label for="SSN">Enter Commissioner's SSN</label>
-          <input type="text" id="SSN" name="SSN" value="{{length}}"  disabled>
-          <br>
-          <label for="Teams">Enter Teams (separate with commas)</label>
-          <input type="text" id="Teams" name="Teams" value="{{length}}"  disabled>
-          <br>
-          <h4>Tip: Creating a League creates its first season</h4>
-          <label for="startDate">Start Date</label>
-          <input type="date" id="startDate" name="startDate" value="{{length}}"  disabled>
-          <br>
-          <label for="endDate">End Date</label>
-          <input type="date" id="endDate" name="endDate" value="{{length}}}" disabled>
-          <br>
-          <label for="maxGames">Max Games per Day</label>
-          <input type="number" id="maxGames" name="maxGames"  value="{{length}}"  min="0" disabled>
-          <br>
-          <label for="gNumber">Number of Games</label>
-          <input type="number" id="gNumber" name="gNumber" min="0"  value="{{length}}"  disabled>
-          <br>
-          <h3>Game Rules</h3>
-          <label for="wins">Wins</label>
-          <input type="number" id="wins" name="wins" min="0" value="{{length}}"  disabled>
-          <label for="loss">Losses</label>
-          <input type="number" id="loss" name="loss" min="0" value="{{length}}"  disabled>
-          <label for="wins">draw</label>
-          <input type="number" id="draw" name="draw" min="0" value="{{length}}"  disabled>
-        {# if coming from season #}
-          <h1>Coming from Season</h1>
-          <form id="newSeason">
-            <label for="lName">League Name</label>
-            <input type="text" id="lName" name="lName"  value="{{length}}" disabled>
-            <br>
-            <label for="sDate">Start Date</label>
-            <input type="date" id="sDate" name="sDate"  value="{{length}}" disabled>
-            <br>
-            <label for="eDate">End Date</label>
-            <input type="date" id="eDate" name="eDate"  value="{{length}}" disabled>
-            <br>
-            <label for="gNumber">Number of Games</label>
-            <input type="number" id="gNumber" name="gNumber" min="0"  value="{{length}}" disabled>
-            <br>
-            <label for="maxGames">Max Games per Day</label>
-            <input type="number" id="maxGames" name="maxGames"  value="{{length}}" disabled>
-            <br>
-            <h3>Game Rules</h3>
-            <label for="wins">Wins</label>
-            <input type="number" id="wins" name="wins" min="0"  value="{{length}}" disabled>
-            <label for="loss">Losses</label>
-            <input type="number" id="loss" name="loss" min="0"  value="{{length}}" disabled>
-            <label for="wins">draw</label>
-            <input type="number" id="draw" name="draw" min="0"  value="{{length}}" disabled>
-            <br>
-          {# if coming from games #}
-            <h1>Coming From Insert Games</h1>
-            <form action="" id="insertGames">
-                <label for="lName">League Name</label>
-                <input type="text" name="lName" id="lName"  value="{{length}}" disabled>
-    
-                <label for="sDate">Start Date</label>
-                <input type="date" name="sDate" id="sDate"  value="{{length}}" disabled>
-    
-                <label for="eDate">End Date</label>
-                <input type="date" name="eDate" id="eDate"  value="{{length}}" disabled>
-    
-                <label for="maxGames">Max # of Games</label>
-                <input type="number" name="maxGames" id="maxGames"  value="{{length}}" disabled>
-                <br>
+      <form action='/manual_result' method='get' id="manualTeams">
+        <input type="hidden" id="comingFrom" name="comingFrom" value="{{comingFrom}}" > <!--get comingFrom here -->
+        <input type="hidden" id="length" name="length" value="{{length}}" >
+        <input type="hidden" id="pairs" name="pairs" value="{{pairs}}" >
+      {% if comingFrom == 'league' %}
+        <input type="hidden" id = "lName" name="lName" value="{{lname}}" >
 
-                <h1>Scroll down for the manual insert teams</h1>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
+        <input type="hidden" id="cName" name="cName" value="{{cname}}" >
+
+        <input type="hidden" id="SSN" name="SSN" value="{{ssn}}"  >
+
+        <input type="hidden" id="Teams" name="Teams" value="{{teams}}"  >
+
+        <input type="hidden" id="startDate" name="startDate" value="{{sdate}}"  >
+
+        <input type="hidden" id="endDate" name="endDate" value="{{edate}}" >
+
+        <input type="hidden" id="maxGames" name="maxGames"  value="{{maxi}}"  min="0" >
+
+        <input type="hidden" id="gNumber" name="gNumber" min="0"  value="{{gnum}}"  >
+
+        <input type="hidden" id="wins" name="wins" min="0" value="{{win}}"  >
+
+        <input type="hidden" id="loss" name="loss" min="0" value="{{loss}}"  >
+
+        <input type="hidden" id="draw" name="draw" min="0" value="{{draw}}"  >
+      {% endif %}
+      {%if comingFrom == 'season'%}
+        <input type="hidden" id="lName" name="lName"  value="{{lname}}" >
+
+        <input type="hidden" id="sDate" name="sDate"  value="{{sdate}}" >
+
+        <input type="hidden" id="eDate" name="eDate"  value="{{edate}}" >
+
+        <input type="hidden" id="gNumber" name="gNumber" min="0"  value="{{gnum}}" >
+
+        <input type="hidden" id="maxGames" name="maxGames"  value="{{maxi}}" >
+
+        <input type="hidden" id="wins" name="wins" min="0"  value="{{win}}" >
+
+        <input type="hidden" id="loss" name="loss" min="0"  value="{{loss}}" >
+
+        <input type="hidden" id="draw" name="draw" min="0"  value="{{draw}}" >
+
+      {%endif%}
+      {%if comingFrom == 'insert_games'%}
+
+        <input type="hidden" name="lName" id="lName"  value="{{lname}}" >
+
+        <input type="hidden" name="sDate" id="sDate"  value="{{sdate}}" >
+
+        <input type="hidden" name="eDate" id="eDate"  value="{{edate}}" >
+
+
+        <input type="hidden" name="numgames" id="numgames" value="{{gnum}}" >
+
+        <input type="hidden" name="maxGames" id="maxGames"  value="{{maxi}}" >
+      {%endif%}
+
+        <h1 onclick="test()">Manual Teams</h1>
+        <p>Set the date and field for each game about to happen</p><br>
+        {{result}}
+
+        
+        <!-- <form action='/mit_2' method='get' id="testForm"> -->
           {% for i in pairs %}
             {{i}}
             <label for="gameDate{{forloop.counter}}">Date</label>
@@ -109,13 +83,12 @@
             <input type="text" name="fieldName{{forloop.counter}}" id="fieldName{{forloop.counter}}" oninput="test()">
             <br>
           {% endfor %}
-            <button id="manualTeamSubmit" class="btn btn-primary" disabled>Enter Teams</button>
-        </form> 
+          <button id="manualTeamSubmit" class="btn btn-primary" >Enter Teams</button>
+      </form> 
     </div>
     <script>
       function test(){
-        teams = document.getElementById("teamNumber").innerHTML;
-        form = document.getElementById("testForm");
+        form = document.getElementById("manualTeams");
         items = [];
         canSubmit = true;
 
