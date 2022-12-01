@@ -9,11 +9,10 @@ mydb=client["pp"]																			# Create Db called P1_T1
 
 Leagues=mydb["Leagues"]																		# create a collection named Leagues
 mydb.Leagues.create_index([('lName', pymongo.ASCENDING)], unique=True)						# create an index on lName
+mydb.Leagues.create_index([('Comissioner.SSN', pymongo.ASCENDING), ('Comissioner.cName', pymongo.ASCENDING)], unique = True)						
 
 Teams=mydb["Teams"]																			# create a collection named Teams
 mydb.Teams.create_index([('tName', pymongo.ASCENDING)], unique=True)						# create an index on tName
-
-# TODO - Zine's Special Function Tomorrow
 
 Seasons=mydb["Seasons"]																		# create a collection named Seasons
 mydb.Seasons.create_index([('lName', pymongo.ASCENDING)], unique=False)						# create an index on lName (optimize queries)
@@ -56,7 +55,7 @@ def insert_league(inLeagues, inSeasons, autoInsertion, inGames={}, maxPerDay=100
 		
 	except pymongo.errors.DuplicateKeyError:												# hundling the DuplicateKeyError exception
 		print("insert_league: DuplicateKeyError handled Succecefully")
-		___res="Duplicate League Name detected"
+		___res="Duplicate League Name or Comissioner/SSN duplicate detected"
 		return ___res
 		#return False
 
