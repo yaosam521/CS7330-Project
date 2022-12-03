@@ -102,23 +102,18 @@ def manual_result(request):
         params = {'res' : "No Teams available"}
         return render(request, 'manual_result.html', params)
 
-    print("***********",pairs)
     pairs = string_to_list(pairs)
     length= request.GET.get('length')
-    print("__________________", pairs)
     inGames=[]
     for i in range(1, int(length)+1):
         for pair in pairs:
-            print("########################",pair)
             (team1, team2)=pair
             field=request.GET.get('fieldName'+str(i))
             date=request.GET.get('gameDate'+str(i))
             inGames.append({"Record":{team1: None, team2: None}, "Field": field, "Date":date})
             
-            print(inGames)
     cf = request.GET.get('comingFrom')
-    print("we are printing CF : ",cf)
-    #print("we are printing LEN : ",length)
+
     if (cf == "league"):
         lname = request.GET.get('lName')
         print("we are printing : ", lname)
@@ -188,6 +183,7 @@ def seasonCreated(request):
     sdate = request.GET.get('sDate')
     edate = request.GET.get('eDate')
     ai = request.GET.get('gameSchedule')
+    print("______________________________________",sdate, edate)
     if ai =="1" :
         autoInsertion=True
     else:
@@ -253,6 +249,7 @@ def sq_result(request):
     name = request.GET.get('lName')
     sdate = request.GET.get('sDate')
     edate = request.GET.get('eDate')
+    print("---------------",name,sdate,edate)
     params = {'result':season_info_query(name, sdate, edate)}
     return render(request, 'queryResults/sq_result.html', params)
 

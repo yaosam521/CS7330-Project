@@ -31,7 +31,7 @@ for team in inTeams:
 insert_league(inLeagues, inSeasons, autoInsertion)
 
 insert_season(inSeasons, autoInsertion, maxPerDay= 3, inGames=inGames)
-insert_season(inSeasonsManu, False, maxPerDay= 3)
+#insert_season(inSeasonsManu, False, maxPerDay= 3)
 insert_game_res("E", -12, "D", 0, t1Rating=-34211.4, replace=True)
 
 move_team("A", "test League", "test League2", "2020-07-23")
