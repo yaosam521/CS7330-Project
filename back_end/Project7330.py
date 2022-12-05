@@ -12,7 +12,7 @@ inTeams=[{"tName":"A","City": "testcity", "State": "testState", "Field": "A Home
 {"tName":"E","City": "testcity2", "State": "testState2", "Rating": -34211.4},
 {"tName":"F","City": "testcity2", "State": "testState2", "Rating": -34211.4}]
 
-inSeasons={"lName": "test League", "sDate": "2020-01-01","eDate": "2020-06-20", "gNumber": 2, "sRules": {"win":3, "draw": 1, "lose":0}}
+inSeasons={"lName": "test League", "sDate": "2020-10-01","eDate": "2020-06-20", "gNumber": 2, "sRules": {"win":3, "draw": 1, "lose":0}}
 inSeasonsManu={"lName": "test League", "sDate": "2020-07-01","eDate": "2020-08-20", "gNumber": 2, "sRules": {"win":3, "draw": 1, "lose":0}}
 
 inGames=[{"Record":{"A": None, "B": None}, "Field": "testfield", "Date":"2020-01-01"},
