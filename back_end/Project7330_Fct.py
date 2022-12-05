@@ -86,6 +86,15 @@ def insert_season(inSeasons, autoInsertion, inGames={}, maxPerDay=100, inTeamCal
 			___res="no such league"
 			print(___res)
 			return ___res
+
+	if inSeasons["sDate"]>inSeasons["eDate"]:
+		if inTeamCall== True:
+			return False
+		else:
+			___res="Start date can't be bigger then end Date"
+			print("insert_season: ",___res)
+			return ___res
+
 	if not (inSeasons["sRules"]["win"] > inSeasons["sRules"]["lose"] and inSeasons["sRules"]["draw"] >= inSeasons["sRules"]["lose"]):
 			if inTeamCall== True:
 				return False
@@ -365,6 +374,8 @@ def game_info_query(team1, team2):			#DONE														# team1/2 should be str
 	groupCondition={"$group": { "_id": "$SeasonId", "Games":{"$addToSet": {"game":(str('$'+"Record."+team1),str('$'+"Record."+team2),"$Date")}} }}
 	for group in Games.aggregate([matchCondition, groupCondition]):									# Games are grouped per season here 
 		season=Seasons.find_one({"_id":group["_id"]})
+		if season==None:
+			break
 		gQueryOrgnizer.setdefault(season["lName"], [])
 		for array in group["Games"]:								#array["game"][0]= t1Score, array["game"][1]= t2Score, array["game"][2]= Date
 			gQueryOrgnizer[season["lName"]].append({array["game"][2]:[array["game"][0], array["game"][1]]})
