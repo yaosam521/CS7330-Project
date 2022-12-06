@@ -66,6 +66,5 @@ There are several future changes that we would like to implement in the future. 
 
 1. When entering game results, instead of a text field for team entry, replace it with a dropdown menu that contains all the available teams. When a team is selected, the dropdown menu options for team 2 will change based on the value for team 1.
 2. When moving teams from one league to another, change the text inputs to dropdown selection menus. For example, the teams dropdown menu will show the list of teams available, and the leagues entry should be changed to dropdown menus as well. 
-3. Validation for dates should be implemented so that the user can't input an end date behind the start date for any pages involving dates.
-4. On the insert games page, instead of relying on the user to input the exact dates when a season starts for a league, create a dropdown menu that shows which seasons have been created for the league entered. 
-5. For all of the queries, except the 'League info' and 'Team info' queries, print the output in a neat format
+3. On the insert games page, instead of relying on the user to input the exact dates when a season starts for a league, create a dropdown menu that shows which seasons have been created for the league entered. 
+4. For all of the queries, except the 'League info' and 'Team info' queries, print the output in a neat format
